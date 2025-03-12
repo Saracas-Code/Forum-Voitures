@@ -23,6 +23,8 @@ body {
 
 h1, h2, h3 {
   color: var(--primary-color);
+  font-weight: bold;
+  text-shadow: 2px 2px 0px black;
 }
 
 a {

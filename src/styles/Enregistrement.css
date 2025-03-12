@@ -1,0 +1,26 @@
+.enregistrement-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Centra el contenido horizontalmente */
+    align-items: center;      /* Centra el contenido verticalmente */
+    height: 100vh;            /* Asegura que el body ocupe toda la altura de la pantalla */
+    margin: 0;  
+
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    background-color: #E8DED2; 
+}
+
+.prenom_nom {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Hace que los campos prenom y nom estén en una fila */
+    grid-column: span 2; /* Esto hace que este div ocupe ambas columnas */
+    gap: 15px; /* Espacio entre los inputs */
+    align-items: center;
+}
+
+.prenom_nom div {
+    display: flex;
+    flex-direction: column; /* Hace que label esté encima del input */
+    gap: 10px; /* Espacio entre los inputs */
+}

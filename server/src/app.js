@@ -1,11 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const api = require('./api.js');
+const express = require("express");
+const cors = require("cors");
+const apiRoutes = require("./api");
 
 const app = express();
-app.use(cors({ origin: '*' }));
+app.use(cors());
 app.use(express.json());
 
-app.use('/api', api);
+app.use("/api", apiRoutes);
 
 module.exports = app;

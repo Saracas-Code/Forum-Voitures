@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 import "../styles/forms.css"
 import "../styles/Enregistrement.css"
@@ -20,25 +21,43 @@ const Enregistrement = () => {
 
     // Fonction pour vérifier la registration
     const handleSubmit = (event) => {
-        event.preventDefault(); // Éviter que la page se recharge
-
+        event.preventDefault(); // Éviter le réchargement
+    
         if (!prenom || !nom || !login || !password || !retapez) {
             setError("Veuillez remplir tous les champs");
             setSuccess("");
             return;
         }
-
+    
         if (password !== retapez) {
             setError("La password n'est pas la même");
             setSuccess("");
             return;
         }
-
-        setSuccess("Inscription réussie! En attente de validation administrative ")
+    
+        setSuccess("Inscription réussie! En attente de validation administrative");
         setError("");
-        
-        // APRÈS ÇA, L'USER DOIT ATTENDRE À QU'UN ADMIN LUI ACEPTE ET L'AJOUTE DANS LA BASE DE DONNÉES
+    
+        // REQUEST AU SERVEUR POUR AJOUTER L'UTILISATEUR 
+        axios
+            .post("http://localhost:3000/api/register", { 
+                prenom,
+                nom,
+                login,
+                password
+            })
+            .then((response) => {
+                console.log(response.data);
+                if (response.data.message) {
+                    setSuccess(response.data.message);  // Réponse exiteuse => message
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                setError("Erreur lors de l'inscription"); // Réponse mauvaise => erreur
+            });
     };
+    
 
     const handleReset = () => {
         setPrenom("");

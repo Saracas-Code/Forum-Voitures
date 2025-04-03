@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 import "../styles/forms.css"
 import "../styles/Login.css"
@@ -15,7 +16,7 @@ const Login = () => {
     const navigate = useNavigate(); // Pour rédiriger après le login
 
     // Fonction pour vérifier l'authentification
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault(); // Éviter que la page se recharge
 
         if (!login || !password) {
@@ -23,11 +24,26 @@ const Login = () => {
             return;
         }
 
-        // DEMANDE À LA DATABASE SI L'USER EXISTE OU PAS. Pour l'instant, simuler l'authentification
-        if (login === "sara" && password === "cas") {
-            navigate("/"); // On va au Forum publique
-        } else {
-            setError("Login ou mot de passe incorrect"); 
+        // DEMANDE À LA DATABASE SI L'USER EXISTE OU PAS.
+        try {
+            // Request avec axios
+            const response = await axios.post("http://localhost:3000/api/login", {
+                login: login,
+                password: password,
+            });
+
+            if (response.status === 200) {
+                // Si la réponse est bonne, on va au forum
+                navigate("/"); 
+            }
+        } catch (err) {
+            // S'il y a quelque erreur, afficher le message
+            if (err.response) {
+                // Si el error es de la respuesta del servidor
+                setError(err.response.data.message);
+            } else {
+                setError("Erreur de connexion, veuillez réessayer.");
+            }
         }
     };
 

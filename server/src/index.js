@@ -1,7 +1,10 @@
+const app = require("./app");
+const { connectToDB } = require("./db.js");
 
-const app = require('./app.js');
+const PORT = 3000;
 
-const port = 8000;
-app.listen(port, () => {
-    console.log(`Serveur lancé sur http://localhost: ${port}`);
+connectToDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Serveur lancé sur http://localhost:${PORT}`);
+    });
 });

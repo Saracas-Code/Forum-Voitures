@@ -27,14 +27,20 @@ const Login = () => {
         // DEMANDE À LA DATABASE SI L'USER EXISTE OU PAS.
         try {
             // Request avec axios
-            const response = await axios.post("http://localhost:3000/api/login", {
+            const response = await axios.post("http://localhost:3000/api/login", 
+            // Body
+            {
                 login: login,
-                password: password,
+                password: password
+            },
+            // Config de petition
+            {
+                withCredentials: true // cookies
             });
 
             if (response.status === 200) {
                 // Si la réponse est bonne, on va au forum
-                navigate("/"); 
+                navigate("/forum"); 
             }
         } catch (err) {
             // S'il y a quelque erreur, afficher le message

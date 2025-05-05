@@ -40,11 +40,17 @@ const Enregistrement = () => {
     
         // REQUEST AU SERVEUR POUR AJOUTER L'UTILISATEUR 
         axios
-            .post("http://localhost:3000/api/register", { 
+            .post("http://localhost:3000/api/register", 
+            // Body
+            { 
                 prenom,
                 nom,
                 login,
                 password
+            },
+            // Config de petition
+            {
+                withCredentials: true // cookies
             })
             .then((response) => {
                 console.log(response.data);

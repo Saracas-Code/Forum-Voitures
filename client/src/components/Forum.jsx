@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "../styles/Forum.css";
-import logo from "../assets/forum.jpg";  
+import logo from "../assets/logo.webp";  
+import AdminUtilities from "./AdminUtilities";
 
 const Forum = () => {
     return (
@@ -17,10 +18,21 @@ const Forum = () => {
                     </div>
                     <button type="submit">Search</button>
                 </div>
+                <AdminUtilities />
+                {/*
                 <div id="connect">
-                    <Link to="/login">Connexion</Link>
-                    <Link to="/register">Enregistrement</Link>
+                    <AdminUtilities />
+                    {
+                        <AdminUtilities
+                            onToggleForum={handleToggleForum}
+                            onShowInscriptions={handleInscriptions}
+                            forumPrive={forumPrive}
+                        />
+                    }
+                    {<Link to="/login">Connexion</Link>
+                    <Link to="/register">Enregistrement</Link>}
                 </div>
+                */}
             </header>
             <main>
                 <aside></aside>

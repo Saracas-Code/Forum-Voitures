@@ -1,0 +1,223 @@
+html, body {
+    height: 100%;  /* Asegura que el body y html ocupen el 100% de la altura de la ventana */
+    margin: 0;     /* Elimina los márgenes por defecto */
+    background-color: #E0F7F1;
+}
+
+/****** HEADER AVEC SES CHAMPS ******/
+header {
+    background-color: #056676;  
+    height: 25%;
+    display:flex;
+    flex-direction: row
+}
+
+/*Logo*/
+#logo {
+    background-color: #056676;  
+    align-self: center;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding-left: 10%;
+    border-radius: 100%;
+}
+
+/* Contenedor de búsqueda */
+#search {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;  
+    justify-content: center;  
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 60%;
+    height: 100%;
+}
+
+#search label {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display: block;  /* Hace que la etiqueta ocupe toda la línea */
+    margin-bottom: 20px;  /* Añade espacio entre la etiqueta y el input */
+    text-align: center;  
+    font-size: 40px; 
+    color: #E0F7F1;
+    margin-top: 10px;
+    text-shadow: 2px 2px 0px #068a9f; 
+}
+
+#chp_dates {
+    display: flex;
+    flex-direction: row;  
+    gap: 20px;
+}
+
+#search input {
+    width: 80%;  
+    padding: 15px;  
+    box-sizing: border-box; 
+    border: 2px solid #ccc;  
+    border-radius: 5px;  
+    font-size: 30px;  
+}
+
+button {
+    padding: 15px 30px; /* Espaciado interno */
+    font-size: 50px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negrita */
+    color: white; /* Texto blanco */
+    background-color: #056676; /* Fondo principal en el mismo color que el header */
+    border: none; /* Elimina el borde */
+    border-radius: 8px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor a "mano" */
+    box-shadow: 0 4px rgba(0, 0, 0, 0.2); /* Sombra para un efecto de profundidad */
+    transition: all 0.3s ease; /* Suaviza los cambios al interactuar */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra en el texto */
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #034c53; /* Color más oscuro al pasar el ratón */
+    box-shadow: 0 6px rgba(0, 0, 0, 0.3); /* Mayor sombra para resaltar el botón */
+}
+
+button:active {
+    background-color: #023d44; /* Color más oscuro al hacer clic */
+    box-shadow: 0 2px rgba(0, 0, 0, 0.2); /* Sombra reducida */
+    transform: translateY(2px); /* Simula un efecto presionado */
+}
+
+
+/*Links*/
+
+#connect {
+    display: flex;                               /* Usamos Flexbox para disposición */
+    flex-direction: column;                      /* Coloca los enlaces en una columna */
+    font-size: 38px;                             /* Tamaño de fuente más grande */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; /* Fuente personalizada */
+    text-align: center;                          /* Centra el texto de los enlaces */
+    margin-top: 30px;                            /* Espacio superior */
+    margin-right: 30px;                          /* Espacio derecho */
+}
+
+#connect a {
+    text-decoration: none;                       /* Elimina el subrayado por defecto */
+    color: #5EAAA8;                              /* Color azul para los enlaces */                            
+    padding: 15px 30px;                          /* Relleno dentro de los enlaces */
+    border-radius: 5px;                          /* Bordes redondeados */
+    border: 2px solid #5EAAA8;                   /* Borde azul claro */
+    margin-bottom: 20px;                         /* Espacio entre los enlaces */
+    display: inline-block;                       /* Hace que los enlaces estén alineados verticalmente */
+    transition: all 0.3s ease;                   /* Transición suave para los cambios de color */
+}
+
+/* Efecto cuando el usuario pasa el cursor sobre el enlace (hover) */
+#connect a:hover {
+    background-color: #5EAAA8;                   /* Cambia el fondo a azul */
+    color: white;                                /* Cambia el color del texto a blanco */
+    text-decoration: none;                       /* Elimina cualquier subrayado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);    /* Sombra ligera para los enlaces */
+}
+
+/* Efecto cuando el enlace está activo (clicado) */
+#connect a:active {
+    transform: scale(0.98);                      /* Efecto de presión al hacer clic */
+}
+
+
+/****** MAIN AVEC SES CHAMPS ******/
+main {
+    background-color: #A5D6A7;
+    display: flex;  /* Establece Flexbox para organizar los elementos en una fila */
+    height: 75%
+}
+
+aside {
+    background-color: #5EAAA8;  /* Color de fondo naranja para el aside */
+    width: 30%;  /* El aside ocupará el 25% del ancho del contenedor */
+    height: 100%  /* Asegura que el aside ocupe toda la altura del main */
+    /*box-sizing: border-box;*/  /* Incluye el padding dentro del tamaño total */
+}
+
+#css_container {
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%
+}
+
+#nouveau_msg {
+    background-color: #cac1b6;
+    width: 100%;  /* El aside ocupará el 25% del ancho del contenedor */
+    height: 30%
+}
+
+#new_comment {
+    display: flex;
+    flex-direction: row; /* Coloca el textarea y el botón en una fila */
+    align-items: stretch; /* Asegura que ambos elementos tengan la misma altura */
+    gap: 10px; /* Espaciado entre el textarea y el botón */
+    height: 100%; /* Altura total del contenedor */
+}
+
+#message_input {
+    width: 80%;
+    height: 90%; /* Ocupa el 100% de la altura del contenedor */
+    resize: none; /* Desactiva el redimensionamiento */
+    padding: 10px; /* Espaciado interno para el texto */
+    font-size: 36px; /* Tamaño de fuente */
+    border: 1px solid #ccc; /* Borde del textarea */
+    border-radius: 10px; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluye el padding en el tamaño */
+    overflow: auto; /* Activa el scroll vertical */
+    margin-top: 5px;
+    margin-left: 5px;
+    
+}
+
+#add_message {
+    width: 20%;
+    height: 90%; /* Ocupa el 100% de la altura del contenedor */
+    font-size: 50px; /* Tamaño del texto */
+    font-weight: bold; /* Texto en negrita */
+    color: white; /* Texto blanco */
+    background-color: #056676; /* Fondo principal en el mismo color que el header */
+    border: none; /* Elimina el borde */
+    border-radius: 8px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor a "mano" */
+    box-shadow: 0 4px rgba(0, 0, 0, 0.2); /* Sombra para un efecto de profundidad */
+    transition: all 0.3s ease; /* Suaviza los cambios al interactuar */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Sombra en el texto */
+}
+
+#add_message:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el cursor */
+}
+
+#liste_msg {
+    background-color: #E8DED2;
+    width: 100%;  /* El aside ocupará el 25% del ancho del contenedor */
+    height: 100%
+}
+
+.message {
+    background-color: whitesmoke;
+}
+
+.message-content {
+    font-size: 34px;
+}
+
+.message-date {
+    font-size: 30px;
+}
+
+.message-owner {
+    font-size: 30px;
+}

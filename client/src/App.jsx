@@ -1,18 +1,43 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import Forum from "./components/Forum";
 import Login from "./components/Login";
 import Enregistrement from "./components/Enregistrement";
-import './App.css'; 
+import './App.css';
+import axios from "axios";
+import { useEffect } from "react";
+
+function RedirectOnStart() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get("http://localhost:3000/api/isLogged", { withCredentials: true })
+        .then((res) => {
+        if (res.data.logged) {
+            navigate("/forum");
+        } else {
+            navigate("/login");
+        }
+        })
+        .catch(() => {
+            navigate("/login");
+        });
+    }, [navigate]);
+
+  return <p>Chargement...</p>; // feedback pendant qu'on redirige
+}
 
 function App() {
     return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Forum />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Enregistrement />} />
-            </Routes>
-        </Router>
+    <Router>
+        <Routes>
+            {/* Page racine qui dirige à la route correcte */}
+            <Route path="/" element={<RedirectOnStart />} />
+
+            <Route path="/forum" element={<Forum />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Enregistrement />} />
+        </Routes>
+    </Router>
     );
 }
 

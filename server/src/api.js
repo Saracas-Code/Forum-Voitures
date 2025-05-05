@@ -1,5 +1,5 @@
 const express = require("express");
-const { getDB } = require("./db");
+const User = require("./entities/user");
 
 const router = express.Router();
 
@@ -7,27 +7,14 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
     const { prenom, nom, login, password } = req.body;
 
-    const db = getDB();
-
-    // Tester si l'user existe déjà dans la base de données
-    const exists = await db.collection("users").findOne({ login });
-
-    if (exists) {
+    const existing = await User.findByLogin(login);
+    if (existing) {
         return res.status(409).json({ message: "Nom d'utilisateur déjà utilisé." });
     }
 
-    const newUser = {
-        prenom,
-        nom,
-        login,
-        password,         
-        isValidated: false // Après les admins changeront ça
-    };
+    const newUser = new User({ prenom, nom, login, password });
+    await newUser.save();
 
-    // s'il n'existe pas, ON L'AJOUTE À LA BASE DE DONNÉES
-    await db.collection("users").insertOne(newUser);
-
-    // Status 201 (Created) pour indiquer qu'on a bien fait l'inscription
     res.status(201).json({ message: "Inscription réussie. En attente de validation." });
 });
 
@@ -35,25 +22,31 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
     const { login, password } = req.body;
 
-    const db = getDB();
-    const user = await db.collection("users").findOne({ login });
-
-    // Tester si l'user existe
+    const user = await User.findByLogin(login);
     if (!user) {
         return res.status(404).json({ message: "Utilisateur non trouvé." });
     }
 
-    // Tester si l'user est validé par un admin
     if (!user.isValidated) {
         return res.status(403).json({ message: "Compte non validé par l’admin." });
     }
 
-    // Tester si le mot de passe est correct
-    if (user.password !== password) {
+    const valid = user.validatePassword(password);
+    if (!valid) {
         return res.status(401).json({ message: "Mot de passe incorrect." });
     }
 
+    req.session.user = { login: user.login, role: user.role }; // GARDER LA SESSION
     res.status(200).json({ message: "Connexion réussie", user: { login: user.login } });
 });
+
+router.get("/isLogged", (req, res) => {
+    if (req.session.user) {
+        res.json({ logged: true, user: req.session.user.login, role: req.session.user.role });
+    } else {
+        res.json({ logged: false });
+    }
+});
+
 
 module.exports = router;

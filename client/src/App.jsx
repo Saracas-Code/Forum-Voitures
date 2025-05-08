@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import Forum from "./components/Forum";
+import Forum from "./components/PagePrincipale";
 import Login from "./components/Login";
 import Enregistrement from "./components/Enregistrement";
 import './App.css';

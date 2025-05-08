@@ -1,7 +1,18 @@
 const express = require("express");
 const User = require("./entities/user");
+const Message = require("./entities/messages");
+const { getDB } = require("./db");
 
 const router = express.Router();
+
+// Vérifier la cookie active
+router.get("/isLogged", (req, res) => {
+    if (req.session.user) {
+        res.json({ logged: true, user: req.session.user.login, role: req.session.user.role });
+    } else {
+        res.json({ logged: false });
+    }
+});
 
 // Enregistrement
 router.post("/register", async (req, res) => {
@@ -40,13 +51,50 @@ router.post("/login", async (req, res) => {
     res.status(200).json({ message: "Connexion réussie", user: { login: user.login } });
 });
 
-router.get("/isLogged", (req, res) => {
-    if (req.session.user) {
-        res.json({ logged: true, user: req.session.user.login, role: req.session.user.role });
-    } else {
-        res.json({ logged: false });
+// GET /api/forum?private=true|false
+router.get("/forum", async (req, res) => {
+    const db = getDB();
+    const isPrivate = req.query.private === "true";
+
+    if (isPrivate && req.session.role !== "admin") {
+        return res.status(403).json({ error: "Accès interdit." });
+    }
+
+    try {
+        const messages = await Message.findAllByPrivacy(isPrivate);
+        res.json(messages);
+    } catch (err) {
+        console.error("Erreur dans /api/forum :", err);
+        res.status(500).json({ error: "Erreur serveur." });
     }
 });
 
+// POST /api/forum?
+router.post("/forum", async (req, res) => {
+    const { content, isPrivate } = req.body;
+    const user = req.session?.username || "inconnu"; // puedes ajustar esto
+
+    if (!content || typeof isPrivate !== "boolean") {
+        return res.status(400).json({ error: "Contenu ou isPrivate invalide." });
+    }
+
+    if (isPrivate && req.session?.role !== "admin") {
+        return res.status(403).json({ error: "Accès interdit." });
+    }
+
+    try {
+        const message = new Message({
+            content,
+            user,
+            isPrivate
+        });
+
+        await message.save();
+        res.status(201).json(message);
+    } catch (err) {
+        console.error("Erreur dans POST /api/forum:", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
 
 module.exports = router;

@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import "../styles/PagePrincipale.css";
 import logo from "../assets/logo.webp";  
 import AdminUtilities from "./AdminUtilities";
+import SideBar from "./SideBar";
 
-const Forum = () => {
+const Forum = ({ currentUser, setCurrentUser }) => {
     return (
         <div>
             <header>
@@ -36,7 +37,12 @@ const Forum = () => {
                 */}
             </header>
             <main>
-                <aside></aside>
+                <aside>
+                    <div className="sidebar">
+                        <SideBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+                    </div>
+
+                </aside>
 
                 <div id="css_container">
                     <section id="nouveau_msg">

@@ -4,7 +4,8 @@ import Login from "./components/Login";
 import Enregistrement from "./components/Enregistrement";
 import './App.css';
 import axios from "axios";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+
 
 function RedirectOnStart() {
     const navigate = useNavigate();
@@ -27,13 +28,14 @@ function RedirectOnStart() {
 }
 
 function App() {
+    const [currentUser, setCurrentUser] = useState(null);
     return (
     <Router>
         <Routes>
             {/* Page racine qui dirige à la route correcte */}
             <Route path="/" element={<RedirectOnStart />} />
 
-            <Route path="/forum" element={<Forum />} />
+            <Route path="/forum" element={<Forum currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Enregistrement />} />
         </Routes>

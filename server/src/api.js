@@ -96,5 +96,17 @@ router.post("/forum", async (req, res) => {
         res.status(500).json({ error: "Erreur serveur." });
     }
 });
+ 
+
+//Prueba
+router.post("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: "Erreur lors de la déconnexion" });
+        }
+        res.clearCookie("connect.sid"); // Nombre por defecto del cookie de session
+        res.json({ message: "Déconnexion réussie" });
+    });
+});
 
 module.exports = router;

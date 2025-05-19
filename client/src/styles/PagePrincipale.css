@@ -135,13 +135,13 @@ button:active {
 main {
     background-color: #A5D6A7;
     display: flex;  /* Establece Flexbox para organizar los elementos en una fila */
-    height: 75%
+    height: 100%;
 }
 
 aside {
     background-color: #5EAAA8;  /* Color de fondo naranja para el aside */
     width: 30%;  /* El aside ocupará el 25% del ancho del contenedor */
-    height: 100%  /* Asegura que el aside ocupe toda la altura del main */
+    height: 100%;  /* Asegura que el aside ocupe toda la altura del main */
     /*box-sizing: border-box;*/  /* Incluye el padding dentro del tamaño total */
 }
 
@@ -219,5 +219,29 @@ aside {
 }
 
 .message-owner {
+    font-size: 30px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+.logout-container {
+    margin-top: auto;   /* empuja hacia abajo */
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.sidebar button {
+    max-width: 150px;
+    width: 100%;
     font-size: 30px;
 }

@@ -1,13 +1,15 @@
 const { getDB } = require("../db");
 
 class User {
-    constructor({ prenom, nom, login, password, role = "pending", isValidated = false }) {
+    constructor({ prenom, nom, login, password, email, role = "pending", isValidated = false, description = "" }) {
         this.prenom = prenom;
         this.nom = nom;
         this.login = login;
         this.password = password;
+        this.email = email;
         this.isValidated = isValidated;
-        this.role = role
+        this.role = role;
+        this.description = description;
     }
 
     async save() {
@@ -17,8 +19,10 @@ class User {
             nom: this.nom,
             login: this.login,
             password: this.password,
+            email: this.email,
             isValidated: this.isValidated,
-            role: this.role
+            role: this.role,
+            description: this.description
         });
     }
 

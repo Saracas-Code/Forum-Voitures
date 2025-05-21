@@ -14,7 +14,31 @@ input {
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 7px;
+}
+
+/* Pour montrer ou non la password */
+.password-toggle {
+    position: relative;
+    width: 100%;
+}
+
+.password-input {
+    width: 100%;
+    padding: 10px 44px 10px 10px; /* ← más espacio a la derecha */
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* MUY importante para que padding no rompa el layout */
+}
+
+.toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    color: black;
+    cursor: pointer;
 }
 
 .error {

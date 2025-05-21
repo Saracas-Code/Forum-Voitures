@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import axios from 'axios'
 
 import "../styles/forms.css"
@@ -8,10 +9,14 @@ import "../styles/Enregistrement.css"
 
 const Enregistrement = () => {
 
+    const [showPassword, setShowPassword] = useState(false);
+    const [showRetapez, setShowRetapez] = useState(false);
+
     // States pour les inputs et le message d'erreur
     const [prenom, setPrenom] = useState("");
     const [nom, setNom] = useState("");
     const [login, setLogin] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [retapez, setRetapez] = useState("");
     const [error, setError] = useState("");
@@ -23,7 +28,7 @@ const Enregistrement = () => {
     const handleSubmit = (event) => {
         event.preventDefault(); // Éviter le réchargement
     
-        if (!prenom || !nom || !login || !password || !retapez) {
+        if (!prenom || !nom || !login || !email || !password || !retapez) {
             setError("Veuillez remplir tous les champs");
             setSuccess("");
             return;
@@ -46,6 +51,7 @@ const Enregistrement = () => {
                 prenom,
                 nom,
                 login,
+                email,
                 password
             },
             // Config de petition
@@ -69,6 +75,7 @@ const Enregistrement = () => {
         setPrenom("");
         setNom("");
         setLogin("");
+        setEmail("");
         setPassword("");
         setRetapez("");
         setError("");
@@ -78,10 +85,6 @@ const Enregistrement = () => {
     return (
         <div className="enregistrement-container">
             <h1>Enregistrement</h1>
-            <div id="connect">
-                <Link to="/">Page Principale</Link>
-                <Link to="/login">Connexion</Link>
-            </div>
             <form onSubmit={handleSubmit} onReset={handleReset}>
                 <div className="prenom_nom">
                     <div>
@@ -97,18 +100,57 @@ const Enregistrement = () => {
                 <label htmlFor="chp_login">Login (Username)</label>
                 <input id="chp_login" placeholder="Login..." value={login} onChange={(e) => setLogin(e.target.value)}/>
 
+                <label htmlFor="chp_email">Email</label>
+                <input id="chp_email" placeholder="Email..." value={login} onChange={(e) => setEmail(e.target.value)}/>
+
                 <label htmlFor="chp_password">Mot de passe</label>
-                <input type="password" id="chp_password" placeholder="Password..." value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <div className="password-toggle">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        id="chp_password"
+                        className="password-input"
+                        placeholder="Password..."
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <span
+                        className="toggle-icon"
+                        onClick={() => setShowPassword(!showPassword)}
+                        title={showPassword ? "Cacher le mot de passe" : "Afficher le mot de passe"}
+                        >
+                        {showPassword ? <FiEyeOff /> : <FiEye />}
+                    </span>
+                </div>
 
                 <label htmlFor="chp_retapez">Retapez le mot de passe</label>
-                <input type="password" id="chp_retapez" placeholder="Repeat password..." value={retapez} onChange={(e) => setRetapez(e.target.value)}/>
+                <div className="password-toggle">
+                    <input
+                        type={showRetapez ? "text" : "password"}
+                        id="chp_retapez"
+                        className="password-input"
+                        placeholder="Repeat password..."
+                        value={retapez}
+                        onChange={(e) => setRetapez(e.target.value)}
+                    />
+                    <span
+                        className="toggle-icon"
+                        onClick={() => setShowRetapez(!showRetapez)}
+                        title={showRetapez ? "Cacher le mot de passe" : "Afficher le mot de passe"}
+                        >
+                        {showRetapez ? <FiEyeOff /> : <FiEye />}
+                    </span>
+                </div>
 
-                <button type="submit">S'inscrire</button>
                 <button type="reset">Annuler</button>
+                <button type="submit">S'inscrire</button>
 
                 {error && <p className="error">{error}</p>}
                 {success && <p className="success">{success}</p>}
             </form>
+            <div id="connect">
+                <label htmlFor="info-connexion">Vous avez déjà une compte?</label>
+                <Link to="/login">Connexion</Link>
+            </div>
         </div>
     );
 };

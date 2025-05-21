@@ -2,7 +2,8 @@ const { getDB } = require("../db");
 const { ObjectId } = require("mongodb");
 
 class Message {
-    constructor({ content, date = new Date(), user, isPrivate = false, replyList = [] }) {
+    constructor({ title, content, date = new Date(), user, isPrivate = false, replyList = [] }) {
+        this.title = title;
         this.content = content;
         this.date = new Date(date);
         this.user = user;
@@ -13,6 +14,7 @@ class Message {
     async save() {
         const db = getDB();
         const result = await db.collection("messages").insertOne({
+            title: this.title,
             content: this.content,
             date: this.date,
             user: this.user,

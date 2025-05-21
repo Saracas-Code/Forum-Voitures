@@ -1,0 +1,109 @@
+.sidebar {
+  background-color: #101c29;
+  width: 70px;
+  height: 100vh;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.sidebar:hover {
+  width: 250px;
+}
+
+.menu-content {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-content li {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* <- Uniform gap for icon-text */
+  padding: 15px 20px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 0 50px 50px 0;
+}
+
+.menu-content li svg {
+  font-size: 1.7rem;
+}
+
+.menu-content li:hover {
+  background-color: #0c0c0c;
+}
+
+.menu-label-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.menu-label {
+  display: none;
+  white-space: nowrap;
+  font-size: 1rem;
+}
+
+.sidebar:hover .menu-label {
+  display: inline;
+}
+
+/* Descripción oculta por defecto */
+.menu-description {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, height 0.3s ease;
+  font-size: 13px;
+  color: #bbb;
+  margin-left: 38px; /* alineado con el texto */
+  margin-top: 5px;
+  max-width: 180px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* BLOQUE ESPECIAL PARA LI CON DESCRIPCIÓN */
+.menu-content .menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sidebar:hover .menu-description {
+  opacity: 1;
+  height: auto;
+}
+
+/* Bottom container: Voir profil + Déconnexion */
+.bottom-container {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+}
+
+.bottom-container li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 0 50px 50px 0;
+}
+
+.bottom-container li svg {
+  font-size: 1.7rem;
+}
+
+.bottom-container li:hover {
+  background-color: #0c0c0c;
+}

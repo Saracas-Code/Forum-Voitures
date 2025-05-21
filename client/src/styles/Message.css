@@ -1,0 +1,62 @@
+/* Título del mensaje */
+.message-title {
+    font-weight: bold;
+    font-size: 22px;
+    color: #333;
+}
+
+/* Contenido principal */
+.message-content {
+    font-size: 18px;
+    color: #444;
+    margin: 5px 0;
+}
+
+/* Metadatos */
+.message-date,
+.message-owner {
+    font-size: 14px;
+    color: #777;
+}
+
+.response-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    background-color: transparent;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: 5px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+
+/* Contenedor de respuestas */
+.replies {
+    margin-top: 10px;
+    padding-left: 20px;
+    border-left: 2px dashed #ccc;
+}
+
+/* Cada respuesta */
+.reply {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.reply-info {
+    font-size: 13px;
+    color: #666;
+}
+
+.no-replies {
+    font-style: italic;
+    color: #999;
+    font-size: 14px;
+}

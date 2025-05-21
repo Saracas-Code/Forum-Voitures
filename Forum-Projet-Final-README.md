@@ -38,11 +38,13 @@ npm install
 **Packages nécessaires :**
 - **axios** (pour faire les requêtes au serveur)
 - **vite** (pour le démarrage du projet React)
+- **react-icons** (pour voir les icons de la sidebar)
 
-Assurez-vous que **axios** est installé, sinon exécutez cette commande pour l'ajouter :
+Assurez-vous que **axios** sont installés, sinon exécutez cettes commandes pour les ajouter :
 
 ```bash
 npm install axios
+npm install react-icons
 ```
 
 #### Serveur (backend)

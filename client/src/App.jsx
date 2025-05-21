@@ -1,45 +1,52 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import Forum from "./components/PagePrincipale";
+import PagePrincipale from "./components/PagePrincipale";
 import Login from "./components/Login";
 import Enregistrement from "./components/Enregistrement";
 import './App.css';
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-
-function RedirectOnStart() {
+function RedirectOnStart({ currentUser }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/isLogged", { withCredentials: true })
-        .then((res) => {
-        if (res.data.logged) {
-            navigate("/forum");
+        if (currentUser) {
+        navigate("/forum");
         } else {
-            navigate("/login");
+        navigate("/login");
         }
-        })
-        .catch(() => {
-            navigate("/login");
-        });
-    }, [navigate]);
+    }, [navigate, currentUser]);
 
-  return <p>Chargement...</p>; // feedback pendant qu'on redirige
+    return <p>Chargement...</p>;
 }
 
 function App() {
     const [currentUser, setCurrentUser] = useState(null);
-    return (
-    <Router>
-        <Routes>
-            {/* Page racine qui dirige à la route correcte */}
-            <Route path="/" element={<RedirectOnStart />} />
 
-            <Route path="/forum" element={<Forum currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
-            <Route path="/login" element={<Login />} />
+    // Recuperar user automáticamente al cargar la app
+    useEffect(() => {
+        axios.get("http://localhost:3000/api/isLogged", { withCredentials: true })
+        .then((res) => {
+            if (res.data.logged) {
+            setCurrentUser(res.data.user);
+            } else {
+            setCurrentUser(null);
+            }
+        })
+        .catch(() => {
+            setCurrentUser(null);
+        });
+    }, []);
+
+    return (
+        <Router>
+        <Routes>
+            <Route path="/" element={<RedirectOnStart currentUser={currentUser} />} />
+            <Route path="/forum" element={<PagePrincipale currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
+            <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
             <Route path="/register" element={<Enregistrement />} />
         </Routes>
-    </Router>
+        </Router>
     );
 }
 

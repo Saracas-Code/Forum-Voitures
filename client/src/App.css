@@ -63,3 +63,15 @@ button:hover {
   max-width: 1200px;
   margin: 0 auto;
 }
+
+/*Pour les buttons dans connexion et enregistrement*/
+#connect {
+    display: flex;
+    flex-direction: row;     /* Asegura que estén en línea horizontal */
+    align-items: center;     /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    gap: 10px;               /* Espacio entre el texto y el enlace */
+    margin-top: 20px;
+    font-size: 20px;
+    color: var(--text-color);
+}

@@ -101,7 +101,7 @@ const Enregistrement = () => {
                 <input id="chp_login" placeholder="Login..." value={login} onChange={(e) => setLogin(e.target.value)}/>
 
                 <label htmlFor="chp_email">Email</label>
-                <input id="chp_email" placeholder="Email..." value={login} onChange={(e) => setEmail(e.target.value)}/>
+                <input id="chp_email" placeholder="Email..." value={email} onChange={(e) => setEmail(e.target.value)}/>
 
                 <label htmlFor="chp_password">Mot de passe</label>
                 <div className="password-toggle">

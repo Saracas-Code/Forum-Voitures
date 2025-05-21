@@ -1,10 +1,11 @@
 .sidebar {
-  background-color: #101c29;
+  background-color: var(--primary-color);
   width: 70px;
   height: 100vh;
   transition: width 0.3s ease;
   overflow: hidden;
   position: fixed;
+  box-shadow: inset -1px 0 0 var(--primary-color);
   top: 0;
   left: 0;
   z-index: 999;
@@ -25,7 +26,7 @@
   align-items: center;
   gap: 15px; /* <- Uniform gap for icon-text */
   padding: 15px 20px;
-  color: white;
+  color: var(--clair-text);
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 0 50px 50px 0;
@@ -36,7 +37,7 @@
 }
 
 .menu-content li:hover {
-  background-color: #0c0c0c;
+  background-color: var(--secondary-color);
 }
 
 .menu-label-wrapper {
@@ -62,8 +63,8 @@
   overflow: hidden;
   transition: opacity 0.3s ease, height 0.3s ease;
   font-size: 13px;
-  color: #bbb;
-  margin-left: 38px; /* alineado con el texto */
+  color: var(--details);
+  margin-left: 3px; /* alineado con el texto */
   margin-top: 5px;
   max-width: 180px;
   white-space: normal;
@@ -94,7 +95,7 @@
   align-items: center;
   gap: 15px;
   padding: 15px 20px;
-  color: white;
+  color: var(--clair-text);
   cursor: pointer;
   transition: background-color 0.3s ease;
   border-radius: 0 50px 50px 0;
@@ -105,5 +106,5 @@
 }
 
 .bottom-container li:hover {
-  background-color: #0c0c0c;
+  background-color: var(--secondary-color);
 }

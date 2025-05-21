@@ -4,19 +4,27 @@ import axios from "axios";
 import "../styles/Forum.css";
 import Message from "./Message";
 
-const Forum = ({ currentUser }) => {
+const Forum = ({ currentUser, isPrivateView, filters  }) => {
   const [messages, setMessages] = useState([]);
   const [newContent, setNewContent] = useState("");
   const [newTitle, setNewTitle] = useState("");
 
-  // Cargar mensajes desde la BD
+  // Cargar mensajes desde la BD cada vez que cambia el modo
   useEffect(() => {
-    axios.get("http://localhost:3000/api/forum", {
-      withCredentials: true
+    const params = { private: isPrivateView }; // importante: siempre incluir private
+
+    if (filters.author) params.user = filters.author;
+    if (filters.keyword) params.keyword = filters.keyword;
+    if (filters.startDate) params.startDate = filters.startDate;
+    if (filters.endDate) params.endDate = filters.endDate;
+
+    axios.get("http://localhost:3000/api/messages", {
+      params,
+      withCredentials: true,
     })
-    .then((res) => setMessages(res.data))
-    .catch(console.error);
-  }, []);
+      .then((res) => setMessages(res.data))
+      .catch(console.error);
+  }, [filters, isPrivateView]); // dispara cuando cambia el filtro o el modo
 
 
   // Añadir nuevo mensaje
@@ -25,10 +33,10 @@ const Forum = ({ currentUser }) => {
     axios.post("http://localhost:3000/api/messages", {
       title: newTitle,
       content: newContent,
-      user: currentUser.login
+      isPrivate: isPrivateView // ← muy importante
     }, { withCredentials: true })
       .then(res => {
-        setMessages([res.data, ...messages]);
+        setMessages([res.data, ...messages]); // Aparece arriba
         setNewContent("");
         setNewTitle("");
       })

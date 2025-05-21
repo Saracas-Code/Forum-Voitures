@@ -1,65 +1,37 @@
 import { useState } from "react";
+import "../styles/Recherche.css";
 
-function Recherche({ onSearch }) {
-    const [filters, setFilters] = useState({
-        auteur: false,
-        motCle: false,
-        dateDebut: false,
-        dateFin: false,
-    });
+const Recherche = ({ onSearch }) => {
+    const [author, setAuthor] = useState("");
+    const [keyword, setKeyword] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
-    const [values, setValues] = useState({
-        auteur: "",
-        motCle: "",
-        dateDebut: "",
-        dateFin: "",
-    });
-
-    const toggleFilter = (filterName) => {
-        setFilters({ ...filters, [filterName]: !filters[filterName] });
+    const handleSearch = () => {
+        onSearch({ author, keyword, startDate, endDate });
     };
 
-    const handleChange = (e) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSearch(values);
+    const handleReset = () => {
+        setAuthor("");
+        setKeyword("");
+        setStartDate("");
+        setEndDate("");
+        onSearch({}); // Limpia los filtros en el padre
     };
 
     return (
-        <div className="search-container">
-            <h2>Recherche</h2>
-
-            <div className="filter-selectors">
-                <label><input type="checkbox" onChange={() => toggleFilter("auteur")} /> Auteur</label>
-                <label><input type="checkbox" onChange={() => toggleFilter("motCle")} /> Mot-clé</label>
-                <label><input type="checkbox" onChange={() => toggleFilter("dateDebut")} /> Date début</label>
-                <label><input type="checkbox" onChange={() => toggleFilter("dateFin")} /> Date fin</label>
-            </div>
-
-            <form className="chp_recherche" onSubmit={handleSubmit}>
-                {filters.auteur && <input type="text" name="auteur" placeholder="Auteur..." onChange={handleChange} />}
-                {filters.motCle && <input type="text" name="motCle" placeholder="Mot-clé..." onChange={handleChange} />}
-                {filters.dateDebut && <input type="date" name="dateDebut" onChange={handleChange} />}
-                {filters.dateFin && <input type="date" name="dateFin" onChange={handleChange} />}
-
-                <button type="submit">Search</button>
-            </form>
+        <div id="search">
+        <label>Recherche</label>
+        <div className="chps_recherche">
+            <input type="text" placeholder="Auteur..." value={author} onChange={e => setAuthor(e.target.value)} />
+            <input type="text" placeholder="Mot-clé..." value={keyword} onChange={e => setKeyword(e.target.value)} />
+            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+            <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+            <button onClick={handleSearch}>Chercher</button>
+            <button onClick={handleReset}>Réinitialiser</button> 
+        </div>
         </div>
     );
-}
-
-export default Recherche;
-
-// LUEOG EN PAGINA PRINCIPAL:
-
-import Recherche from "./Recherche";
-
-const handleSearch = (filtros) => {
-    console.log("Filtros aplicados:", filtros);
-    // Puedes enviar estos filtros al backend o usarlos para filtrar mensajes
 };
 
-<Recherche onSearch={handleSearch} />
+export default Recherche;

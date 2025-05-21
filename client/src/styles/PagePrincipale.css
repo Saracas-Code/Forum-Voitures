@@ -1,8 +1,4 @@
-html, body {
-    height: 100%;  /* Asegura que el body y html ocupen el 100% de la altura de la ventana */
-    margin: 0;     /* Elimina los márgenes por defecto */
-    
-}
+
 
 /****** HEADER AVEC SES CHAMPS ******/
 header {
@@ -15,12 +11,15 @@ header {
 
 /*Logo*/
 #logo {
-    background-color: #056676;  
+    background-color: var(--primary-color);  
     align-self: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    width: 30%;
-    height: 100%;
+    width: 20%;         /* Cambia según necesites */
+    height: 210px;      /* O un valor fijo */
 }
+
 
 img {
     width: 100%;
@@ -29,48 +28,6 @@ img {
     padding-left: 10%;
     border-radius: 100%;
 }
-
-/* Contenedor de búsqueda */
-#search {
-    display: flex;
-    flex-direction: column;  
-    align-items: center;  
-    justify-content: center;  
-    margin-left: 5%;
-    margin-right: 5%;
-    width: 60%;
-    height: 100%;
-}
-
-#search label {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    display: block;  /* Hace que la etiqueta ocupe toda la línea */
-    margin-bottom: 20px;  /* Añade espacio entre la etiqueta y el input */
-    text-align: center;  
-    font-size: 40px; 
-    color: #E0F7F1;
-    margin-top: 20px;
-    text-shadow: 2px 2px 0px #068a9f; 
-}
-
-.chps_recherche {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-#search input {
-    width: 50%;  
-    padding: 10px;  
-    box-sizing: border-box; 
-    border: 2px solid #ccc;  
-    border-radius: 5px;  
-    font-size: 30px;  
-}
-
 
 /*Links*/
 
@@ -91,28 +48,3 @@ main {
     margin-left: 35px;
     height: 100%;
 }
-
-/*
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-
-.logout-container {
-    margin-top: auto;   
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.sidebar button {
-    max-width: 150px;
-    width: 100%;
-    font-size: 30px;
-} */

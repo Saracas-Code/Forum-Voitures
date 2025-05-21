@@ -20,7 +20,7 @@ app.use(session({
         secure: false,      // false : localhost. true si on utilise https
         httpOnly: true,
         sameSite: "lax",       // permite cookies entre localhost:<puerto>
-        maxAge: 1000 * 60 * 60 * 2  // 2h
+        maxAge: 10000 * 60 * 60 * 2 
     }
 }));
 

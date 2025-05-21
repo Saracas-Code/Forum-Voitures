@@ -4,7 +4,8 @@ import "../styles/Sidebar.css";
 import { FaUser, FaSignOutAlt, FaInfoCircle, FaClipboardList, FaUserLock, FaIdBadge } from "react-icons/fa";
 import axios from "axios";
 
-function SideBar({ currentUser, setCurrentUser }) {
+function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView }) {
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,6 +16,7 @@ function SideBar({ currentUser, setCurrentUser }) {
     try {
       await axios.post("http://localhost:3000/api/logout", {}, { withCredentials: true });
       setCurrentUser(null);
+      setIsPrivateView(false); // ← volver a tema claro
       navigate("/login");
     } catch (err) {
       console.error("Erreur lors de la déconnexion", err);
@@ -26,9 +28,10 @@ function SideBar({ currentUser, setCurrentUser }) {
       <ul className="menu-content">
         <li>
           <FaUser />
-          <span className="menu-label">{currentUser?.prenom} {currentUser?.nom}</span>
+          <span className="menu-label">
+            {currentUser ? `${currentUser.prenom} ${currentUser.nom}` : "Undefined"}
+          </span>
         </li>
-
         <li className="menu-item">
           <div className="menu-label-wrapper">
             <FaInfoCircle />
@@ -46,12 +49,15 @@ function SideBar({ currentUser, setCurrentUser }) {
               <FaClipboardList />
               <span className="menu-label">Inscriptions</span>
             </li>
-            <li>
+            <li onClick={() => setIsPrivateView(prev => !prev)}>
               <FaUserLock />
-              <span className="menu-label">Forum privé</span>
+              <span className="menu-label">
+                {isPrivateView ? "Forum public" : "Forum privé"}
+              </span>
             </li>
           </>
         )}
+
       </ul>
 
       {/* Logout and profile fixed at bottom */}

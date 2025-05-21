@@ -6,14 +6,47 @@
   box-sizing: border-box;
 }
 
-/* Palette de couleurs dans le Forum */
+html {
+  overflow-y: scroll; /* Évite le décalage du contenu quand la barre de défilement apparaît/disparaît (Importante quand on active le darkmode et lightmode)*/
+}
+
+
+/* Palette de couleurs dans le Forum PUBLIQUE (par défault) */
 :root {
   --primary-color: #056676;
   --secondary-color: #5EAAA8;
   --background-color: #E8DED2;
   --form-background: #dfd2c2;
-  --text-color: #333;
+
+  --details: #ccc;
+
+  --clair-text : white;
+  --shadows : black;
+
+  /* Pour les messages du forum */
+  --reply-background: #f9f9f9;
+  --title-msg: #333;
+  --content-msg: #444;
+  --minor-content-msg: #777;
+  --no-replies : #999;
 }
+
+/* Palette de couleurs dans le Forum privé */
+:root.dark-mode {
+  --primary-color: #1a2f5c;       /* Header + Sidebar */
+  --background-color: #a7bfdc;    /* Fondo general claro */
+  --form-background: #f1f5f9;     /* Formularios aún más claros */
+  --secondary-color: #576d8c;     /* Detalles o botones */
+  
+  --details: #555;
+
+  --reply-background: #c8d8eb;
+  --title-msg: #232c51;
+  --content-msg: #49545a;
+  --minor-content-msg: #777;
+  --no-replies : #5d7e98;
+}
+
 
 body {
   font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -24,7 +57,7 @@ body {
 h1, h2, h3 {
   color: var(--primary-color);
   font-weight: bold;
-  text-shadow: 2px 2px 0px black;
+  text-shadow: 2px 2px 0px var(--secondary-color);
 }
 
 a {
@@ -37,16 +70,16 @@ a {
 }
 
 a:hover {
-  color: white;
+  color: var(--clair-text);
   background-color: var(--secondary-color);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  
+  box-shadow: 0 4px 6px var(--text-color);  
 }
 
 button {
   padding: 12px;
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: var(--clair-text);
   background-color: var(--primary-color);
   border: none;
   border-radius: 5px;

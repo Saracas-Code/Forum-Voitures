@@ -2,13 +2,13 @@
 .message-title {
     font-weight: bold;
     font-size: 22px;
-    color: #333;
+    color: var(--title-msg);
 }
 
 /* Contenido principal */
 .message-content {
     font-size: 18px;
-    color: #444;
+    color: var(--content-msg);
     margin: 5px 0;
 }
 
@@ -16,7 +16,7 @@
 .message-date,
 .message-owner {
     font-size: 14px;
-    color: #777;
+    color: var(--minor-content-msg);
 }
 
 .response-btn {
@@ -38,12 +38,12 @@
 .replies {
     margin-top: 10px;
     padding-left: 20px;
-    border-left: 2px dashed #ccc;
+    border-left: 2px dashed var(--details);
 }
 
 /* Cada respuesta */
 .reply {
-    background-color: #f9f9f9;
+    background-color: var(--reply-background);
     padding: 10px;
     margin-bottom: 8px;
     border-radius: 5px;
@@ -52,11 +52,71 @@
 
 .reply-info {
     font-size: 13px;
-    color: #666;
+    color: var(--minor-content-msg);
 }
 
 .no-replies {
     font-style: italic;
-    color: #999;
+    color: var(--no-replies);
     font-size: 14px;
 }
+
+.reply-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.reply-form input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--details);
+  background-color: var(--form-background);
+  color: var(--title-msg);
+  font-size: 16px;
+  outline: none;
+}
+
+.reply-toggle-btn {
+  margin-top: 20px;  /* ← aquí defines el espacio */
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
+  color: var(--secondary-color);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px;
+  transition: color 0.2s ease;
+}
+
+.reply-toggle-btn:hover {
+  color: var(--primary-color);
+}
+
+
+.reply-form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.send-btn {
+  background-color: var(--secondary-color);
+  color: var(--clair-text);
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: transparent;
+  border: 1px solid var(--minor-content-msg);
+  color: var(--minor-content-msg);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+

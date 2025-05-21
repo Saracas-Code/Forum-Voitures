@@ -5,32 +5,7 @@ const { getDB } = require("./db");
 
 const router = express.Router();
 
-// Vérifier la cookie active
-router.get("/isLogged", (req, res) => {
-    if (req.session.user) {
-        res.json({
-            logged: true,
-            user: req.session.user // todo el objeto user guardado en sesión
-        });
-    } else {
-        res.json({ logged: false });
-    }
-});
-
-// Enregistrement
-router.post("/register", async (req, res) => {
-    const { prenom, nom, login, email, password } = req.body;
-
-    const existing = await User.findByLogin(login);
-    if (existing) {
-        return res.status(409).json({ message: "Nom d'utilisateur déjà utilisé." });
-    }
-
-    const newUser = new User({ prenom, nom, login, email, password });
-    await newUser.save();
-
-    res.status(201).json({ message: "Inscription réussie. En attente de validation." });
-});
+// TYPICAL SERVICES : Login, Logout, SignUp, isLogged (vérifier la cookie)
 
 // Connexion
 router.post("/login", async (req, res) => {
@@ -72,34 +47,64 @@ router.post("/logout", (req, res) => {
     });
 });
 
-// GET /api/forum?private=true|false . Retrouver les messages du forum publique et du forum privé
-router.get("/forum", async (req, res) => {
-    const db = getDB();
-    const isPrivate = req.query.private === "true";
+// Enregistrement
+router.post("/register", async (req, res) => {
+    const { prenom, nom, login, email, password } = req.body;
 
-    if (isPrivate && req.session.role !== "admin") {
+    const existing = await User.findByLogin(login);
+    if (existing) {
+        return res.status(409).json({ message: "Nom d'utilisateur déjà utilisé." });
+    }
+
+    const newUser = new User({ prenom, nom, login, email, password });
+    await newUser.save();
+
+    res.status(201).json({ message: "Inscription réussie. En attente de validation." });
+});
+
+// Vérifier la cookie active
+router.get("/isLogged", (req, res) => {
+    if (req.session.user) {
+        res.json({
+            logged: true,
+            user: req.session.user // todo el objeto user guardado en sesión
+        });
+    } else {
+        res.json({ logged: false });
+    }
+});
+
+
+// GET /api/messages?private=true|false&user=...&keyword=...&startDate=...&endDate=...
+// Retrouver les messages du forum privé ou forum publique
+// Cette méthode permet aussi de retrouver les messages filtrés
+router.get("/messages", async (req, res) => {
+    const isPrivate = req.query.private === "true";
+    if (isPrivate && req.session?.user?.role !== "admin") {
         return res.status(403).json({ error: "Accès interdit." });
     }
 
     try {
-        const messages = await Message.findAllByPrivacy(isPrivate);
+        const messages = await Message.findWithFilters(req.query, isPrivate);
         res.json(messages);
     } catch (err) {
-        console.error("Erreur dans /api/forum :", err);
+        console.error("Erreur GET /messages:", err);
         res.status(500).json({ error: "Erreur serveur." });
     }
 });
 
-// POST /api/forum?
-router.post("/forum", async (req, res) => {
-    const { title, content, isPrivate } = req.body;
-    const user = req.session?.username || "inconnu"; // puedes ajustar esto
 
-    if (!content || typeof isPrivate !== "boolean") {
-        return res.status(400).json({ error: "Contenu ou isPrivate invalide." });
+// POST /api/messages
+// Ajouter un nouveau message
+router.post("/messages", async (req, res) => {
+    const { title, content, isPrivate = false } = req.body;
+    const user = req.session?.user?.login || "inconnu";
+
+    if (!title || !content) {
+        return res.status(400).json({ error: "Titre ou contenu manquant." });
     }
 
-    if (isPrivate && req.session?.role !== "admin") {
+    if (isPrivate && req.session?.user?.role !== "admin") {
         return res.status(403).json({ error: "Accès interdit." });
     }
 
@@ -108,15 +113,41 @@ router.post("/forum", async (req, res) => {
             title,
             content,
             user,
-            isPrivate
+            isPrivate,
+            date: new Date(),       
+            replyList: []           
         });
 
         await message.save();
         res.status(201).json(message);
     } catch (err) {
-        console.error("Erreur dans POST /api/forum:", err);
+        console.error("Erreur dans POST /api/messages:", err);
         res.status(500).json({ error: "Erreur serveur." });
     }
 });
+
+// POST /api/messages/:id/reply
+router.post("/messages/:id/reply", async (req, res) => {
+    const { id } = req.params;
+    const { content } = req.body;
+    const user = req.session?.user?.login || "inconnu";
+
+    if (!content || !id) {
+        return res.status(400).json({ error: "Contenu ou ID manquant." });
+    }
+
+    try {
+        const reply = await Message.addReply(id, content, user);
+        if (!reply) {
+            return res.status(404).json({ error: "Message non trouvé." });
+        }
+        res.status(201).json(reply);
+    } catch (err) {
+        console.error("Erreur POST /messages/:id/reply:", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
+
 
 module.exports = router;

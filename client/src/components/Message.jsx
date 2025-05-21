@@ -1,14 +1,32 @@
 import { useState } from "react";
+import axios from "axios";
 import "../styles/Message.css";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 const Message = ({ message }) => {
     const [showReplies, setShowReplies] = useState(false);
+    const [showReplyForm, setShowReplyForm] = useState(false);
+    const [replyText, setReplyText] = useState("");
+    const [localReplies, setLocalReplies] = useState(message.replyList || []);
 
-    // Protección básica en caso de props incompletas
     if (!message) return null;
 
-    const { title, content, date, user, replyList = [] } = message;
+    const { _id, title, content, date, user } = message;
+
+    const handleSendReply = async () => {
+        if (!replyText.trim()) return;
+        try {
+            const res = await axios.post(`http://localhost:3000/api/messages/${_id}/reply`, {
+                content: replyText
+            }, { withCredentials: true });
+
+            setLocalReplies([res.data, ...localReplies]);
+            setReplyText("");
+            setShowReplyForm(false);
+        } catch (err) {
+            console.error("Erreur lors de la réponse :", err);
+        }
+    };
 
     return (
         <div className="message">
@@ -28,8 +46,8 @@ const Message = ({ message }) => {
 
             {showReplies && (
                 <div className="replies">
-                    {replyList.length > 0 ? (
-                        replyList.map((reply, index) => (
+                    {localReplies.length > 0 ? (
+                        localReplies.map((reply, index) => (
                             <div key={index} className="reply">
                                 <p>{reply.content || "(Pas de contenu)"}</p>
                                 <p className="reply-info">
@@ -40,6 +58,29 @@ const Message = ({ message }) => {
                     ) : (
                         <p className="no-replies">Aucune réponse pour ce message.</p>
                     )}
+
+                    {!showReplyForm && (
+                        <button className="reply-toggle-btn" onClick={() => setShowReplyForm(true)}>
+                            Répondre
+                        </button>
+                    )}
+
+                    {showReplyForm && (
+                        <div className="reply-form">
+                            <input
+                            type="text"
+                            value={replyText}
+                            onChange={(e) => setReplyText(e.target.value)}
+                            placeholder="Écrivez votre réponse ici..."
+                            />
+                            <div className="reply-form-buttons">
+                            <button className="send-btn" onClick={handleSendReply}>Envoyer</button>
+                            <button className="cancel-btn" onClick={() => setShowReplyForm(false)}>Annuler</button>
+                            </div>
+                        </div>
+                    )}
+
+
                 </div>
             )}
         </div>

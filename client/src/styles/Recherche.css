@@ -1,0 +1,63 @@
+/* Contenedor principal de búsqueda */
+#search {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 5%;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Título */
+#search label {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    font-size: 30px;
+    color: var(--background-color);
+    text-shadow: 1px 1px 0px var(--shadows);
+    margin-bottom: 15px;
+}
+
+/* Grupo de campos de búsqueda */
+.chps_recherche {
+    color: var(--clair-text);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+}
+
+/* Campos de entrada */
+.chps_recherche input {
+    padding: 10px 14px;
+    font-size: 18px;
+    border: 2px solid var(--details);
+    border-radius: 8px;
+    width: 180px;
+    transition: border-color 0.3s ease;
+}
+
+.chps_recherche input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+/* Botón de búsqueda */
+.chps_recherche button {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--clair-text);
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.chps_recherche button:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}

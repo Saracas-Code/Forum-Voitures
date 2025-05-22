@@ -151,6 +151,90 @@ router.post("/messages/:id/reply", async (req, res) => {
     }
 });
 
+//** SERVICES DE USERS : getUsers, changeRole **//
+
+// GET /api/users?validated=true|false
+// Récupérer les utilisateurs filtrés par validation
+router.get("/users", async (req, res) => {
+    try {
+        const users = await User.findAllFiltered(req.query.validated);
+        res.json(users);
+    } catch (err) {
+        console.error("Erreur GET /users :", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
+// PUT /api/users/:id/role
+// Changer le rôle d'un user
+router.put("/users/:id/role", async (req, res) => {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    if (!role || !["admin", "member"].includes(role)) {
+        return res.status(400).json({ error: "Rôle invalide." });
+    }
+
+    try {
+        const result = await User.updateRoleById(id, role);
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: "Utilisateur non trouvé." });
+        }
+
+        res.status(200).json({ message: "Rôle mis à jour avec succès." });
+    } catch (err) {
+        res.status(500).json({ error: err.message || "Erreur serveur." });
+    }
+});
+
+// PUT /api/users/:id/validate
+router.put("/users/:id/validate", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await User.validateById(id);
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: "Utilisateur non trouvé." });
+        }
+
+        res.status(200).json({ message: "Utilisateur validé avec succès." });
+    } catch (err) {
+        console.error("Erreur PUT /users/:id/validate :", err.message);
+        res.status(500).json({ error: err.message || "Erreur serveur." });
+    }
+});
+
+
+// DELETE /api/users/:id
+// Rejecter la petition d'un utilisateur d'accès au forum
+router.delete("/users/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        result = await User.deleteById(id);
+
+        res.status(200).json({ message: "Utilisateur supprimé avec succès." });
+    } catch (err) {
+        console.error("Erreur DELETE /users/:id :", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
+// GET /api/users/pending-count
+// Compter les users qui ne sont pas validés
+router.get("/users/pending-count", async (req, res) => {
+    try {
+        const db = getDB();
+        const count = await db.collection("users").countDocuments({ isValidated: false });
+        res.status(200).json({ count });
+    } catch (err) {
+        console.error("Erreur GET /users/pending-count :", err.message);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
+
 
 
 module.exports = router;

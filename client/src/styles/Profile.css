@@ -1,0 +1,138 @@
+.profile-container {
+    width : 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    gap: 30px;
+}
+
+.user-info {
+    width: 40%;
+    background-color: var(--form-background);
+    padding: 20px;
+    border-radius: 10px;
+    margin-left:50px
+}
+
+.user-messages {
+    flex: 1;
+    background-color: var(--background-color);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.avatar-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.avatar-placeholder {
+    font-size: 60px;
+    text-align: center;
+    background-color: var(--details);
+    border-radius: 50%;
+    padding: 10px;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.credentials p {
+    margin: 2px 0;
+}
+
+.make-admin {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.field {
+    margin-bottom: 15px;
+
+}
+
+.field label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+textarea,
+input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.button-group {
+    margin-top: 20px;
+}
+
+.button-group button {
+    margin-right: 10px;
+    padding: 8px 12px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.message-placeholder {
+    background-color: var(--reply-background);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.toggle-admin-btn {
+    background-color: var(--secondary-color);
+    color: (--clair-text);
+    padding: 8px 14px;
+    margin-top: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.toggle-admin-btn:hover {
+    background-color: var(--primary-color);
+}
+
+.reject-btn {
+    background-color: transparent;
+    color: var(--minor-content-msg);
+    padding: 8px 14px;
+    margin-left: 10px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reject-btn:hover {
+    background-color: var(--minor-content-msg);
+    color: var(--clair-text);
+}
+
+
+

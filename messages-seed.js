@@ -11,6 +11,12 @@
         "content": "Merci Alice !",
         "user": "bob",
         "date": { "$date": "2025-05-01T11:00:00Z" }
+      },
+      {
+        "_id": { "$oid": "66520f00123456789abc0005" },
+        "content": "Hâte de participer :)",
+        "user": "emma",
+        "date": { "$date": "2025-05-01T11:30:00Z" }
       }
     ]
   },
@@ -26,6 +32,12 @@
         "content": "Je serai là.",
         "user": "admin2",
         "date": { "$date": "2025-05-02T10:00:00Z" }
+      },
+      {
+        "_id": { "$oid": "66520f00123456789abc0006" },
+        "content": "Je prévois le support technique.",
+        "user": "admin4",
+        "date": { "$date": "2025-05-02T10:30:00Z" }
       }
     ]
   },
@@ -41,6 +53,12 @@
         "content": "Gratin de pommes de terre avec fromage !",
         "user": "luc",
         "date": { "$date": "2025-05-04T15:00:00Z" }
+      },
+      {
+        "_id": { "$oid": "66520f00123456789abc0007" },
+        "content": "Pâtes au pesto, rapide et efficace !",
+        "user": "bob",
+        "date": { "$date": "2025-05-04T15:20:00Z" }
       }
     ]
   },
@@ -50,7 +68,14 @@
     "user": "julia",
     "date": { "$date": "2025-05-05T08:30:00Z" },
     "isPrivate": false,
-    "replyList": []
+    "replyList": [
+      {
+        "_id": { "$oid": "66520f00123456789abc0008" },
+        "content": "Non, tout fonctionne ici !",
+        "user": "alice",
+        "date": { "$date": "2025-05-05T09:00:00Z" }
+      }
+    ]
   },
   {
     "title": "Modération forum privé",
@@ -61,7 +86,7 @@
     "replyList": [
       {
         "_id": { "$oid": "66520f00123456789abc0004" },
-        "content": "Peut-être activer l’alerte pour les mots interdits.",
+        "content": "Activer l’alerte pour les mots interdits, bonne idée !",
         "user": "admin4",
         "date": { "$date": "2025-05-03T09:00:00Z" }
       }

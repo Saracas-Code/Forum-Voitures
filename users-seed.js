@@ -88,5 +88,45 @@
     "isValidated": true,
     "role": "admin",
     "description": "Surveille les alertes et les contenus sensibles."
+  },
+  {
+    "prenom": "Chloe",
+    "nom": "Blanc",
+    "login": "chloe",
+    "password": "chloe123",
+    "email": "chloe@mail.com",
+    "isValidated": false,
+    "role": "pending",
+    "description": "J'aimerais rejoindre la communauté !"
+  },
+  {
+    "prenom": "David",
+    "nom": "Roux",
+    "login": "david",
+    "password": "david123",
+    "email": "david@mail.com",
+    "isValidated": false,
+    "role": "pending",
+    "description": "Développeur curieux de forums culinaires."
+  },
+  {
+    "prenom": "Nina",
+    "nom": "Leroy",
+    "login": "nina",
+    "password": "nina123",
+    "email": "nina@mail.com",
+    "isValidated": false,
+    "role": "pending",
+    "description": "Grande fan de desserts et d'échanges gourmands."
+  },
+  {
+    "prenom": "Thomas",
+    "nom": "Bertrand",
+    "login": "thomas",
+    "password": "thomas123",
+    "email": "thomas@mail.com",
+    "isValidated": false,
+    "role": "pending",
+    "description": "Envie de partager mes recettes familiales."
   }
 ]

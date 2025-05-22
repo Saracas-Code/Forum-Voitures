@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 import PagePrincipale from "./components/PagePrincipale";
 import Login from "./components/Login";
 import Enregistrement from "./components/Enregistrement";
+import Profile from "./components/Profile"
 import './App.css';
 import axios from "axios";
 import { useState, useEffect } from "react";
@@ -38,9 +39,10 @@ function App() {
         <Router>
         <Routes>
             <Route path="/" element={<RedirectOnStart setCurrentUser={setCurrentUser} />} />
-            <Route path="/forum" element={<PagePrincipale currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
             <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
             <Route path="/register" element={<Enregistrement />} />
+            <Route path="/forum" element={<PagePrincipale currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
+            <Route path="/profile" element={<Profile currentUser={currentUser} />} />
         </Routes>
         </Router>
     );

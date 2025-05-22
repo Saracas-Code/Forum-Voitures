@@ -1,16 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import "../styles/Sidebar.css";
-import { FaUser, FaSignOutAlt, FaInfoCircle, FaClipboardList, FaUserLock, FaIdBadge } from "react-icons/fa";
+import { FaUser, FaSignOutAlt, FaInfoCircle, FaClipboardList, FaUserLock, FaIdBadge, FaArrowLeft, FaUsers } from "react-icons/fa";
 import axios from "axios";
+import { useState, useEffect } from "react";
 
-function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView }) {
+function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView, showProfile, setShowProfile, showUserList, setShowUserList, showInscriptions, setShowInscriptions, pendingCount, refetchPendingCount }) {
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log("Description de l'utilisateur connecté :", currentUser?.description);
-  }, [currentUser]);
 
   const handleLogout = async () => {
     try {
@@ -32,6 +28,7 @@ function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView 
             {currentUser ? `${currentUser.prenom} ${currentUser.nom}` : "Undefined"}
           </span>
         </li>
+
         <li className="menu-item">
           <div className="menu-label-wrapper">
             <FaInfoCircle />
@@ -42,36 +39,72 @@ function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView 
           </div>
         </li>
 
-        {/* ADMIN OPTIONS */}
-        {currentUser?.role === "admin" && (
-          <>
-            <li>
-              <FaClipboardList />
-              <span className="menu-label">Inscriptions</span>
-            </li>
-            <li onClick={() => setIsPrivateView(prev => !prev)}>
-              <FaUserLock />
-              <span className="menu-label">
-                {isPrivateView ? "Forum public" : "Forum privé"}
-              </span>
-            </li>
-          </>
+        {!showInscriptions && (
+          <li onClick={() => {
+            if (showUserList) {
+              setShowUserList(false);
+            } else {
+              setShowUserList(true);
+            }
+            setShowProfile(false);
+            setIsPrivateView(false);
+          }}>
+            {showUserList ? <FaArrowLeft /> : <FaUsers />}
+            <span className="menu-label">
+              {showUserList ? "Retour au forum" : "Découvrir personnes"}
+            </span>
+          </li>
         )}
 
+        {/* ADMIN OPTIONS */}
+        {currentUser?.role === "admin" && !showProfile && !showUserList && (
+          <>
+            <li onClick={() => {
+              setShowInscriptions(prev => !prev);
+              setShowUserList(false);
+              setShowProfile(false);
+              setIsPrivateView(false);
+            }}>
+              {showInscriptions ? <FaArrowLeft /> : <FaClipboardList />}
+              <span className="menu-label">
+                {showInscriptions ? "Retour au forum" : `Inscriptions${pendingCount > 0 ? ` (${pendingCount})` : ""}`}
+              </span>
+            </li>
+            {!showInscriptions && (
+              <li onClick={() => setIsPrivateView(prev => !prev)}>
+                <FaUserLock />
+                <span className="menu-label">
+                  {isPrivateView ? "Forum public" : "Forum privé"}
+                </span>
+              </li>
+            )}
+          </>
+        )}
       </ul>
 
-      {/* Logout and profile fixed at bottom */}
+      {/* Logout and profile */}
       <ul className="bottom-container">
-        <li>
-          <FaIdBadge />
-          <span className="menu-label">Voir profil</span>
-        </li>
+        {!showInscriptions && (
+          <li onClick={() => {
+            if (showProfile) {
+              setShowProfile(false);     // Retourner au forum
+            } else {
+              setShowProfile(true);
+            }
+            setShowUserList(false);
+            setIsPrivateView(false);
+          }}>
+            {showProfile ? <FaArrowLeft /> : <FaIdBadge />}
+            <span className="menu-label">
+              {showProfile ? "Retour au forum" : "Voir profil"}
+            </span>
+          </li>
+        )}
         <li onClick={handleLogout}>
           <FaSignOutAlt />
           <span className="menu-label">Déconnexion</span>
         </li>
       </ul>
-
     </div>
   );
 }

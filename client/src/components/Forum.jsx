@@ -5,6 +5,7 @@ import "../styles/Forum.css";
 import Message from "./Message";
 
 const Forum = ({ currentUser, isPrivateView, filters  }) => {
+
   const [messages, setMessages] = useState([]);
   const [newContent, setNewContent] = useState("");
   const [newTitle, setNewTitle] = useState("");
@@ -29,7 +30,9 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
 
   // Añadir nuevo mensaje
   const handleAddMessage = () => {
+
     if (!newContent.trim() || !newTitle.trim()) return;
+
     axios.post("http://localhost:3000/api/messages", {
       title: newTitle,
       content: newContent,
@@ -49,8 +52,8 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
         <div id="new_comment">
           <label id="title-msg">Title</label>
           <input
-            id="title_input"
             type="text"
+            id="title_input"
             placeholder="Titre..."
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}

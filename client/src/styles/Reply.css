@@ -1,0 +1,14 @@
+/* Reply.css */
+
+.reply {
+    background-color: var(--reply-background);
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.reply-info {
+    font-size: 13px;
+    color: var(--minor-content-msg);
+}

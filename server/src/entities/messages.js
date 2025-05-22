@@ -22,8 +22,13 @@ class Message {
             isPrivate: this.isPrivate,
             replyList: this.replyList
         });
-        return result;
+
+        // Recuperar el mensaje insertado completo (con _id)
+        const insertedMessage = await db.collection("messages").findOne({ _id: result.insertedId });
+
+        return new Message(insertedMessage); // devuelve el mensaje real insertado
     }
+
 
     static async findAllByPrivacy(isPrivate) {
         const db = getDB();
@@ -45,13 +50,14 @@ class Message {
     static async addReply(messageId, replyContent, replyUser) {
         const db = getDB();
         const reply = {
+            _id: new ObjectId(),
             content: replyContent,
             date: new Date(),
             user: replyUser
         };
 
         const result = await db.collection("messages").updateOne(
-            { _id: new ObjectId(messageId) },   // ← Aquí usas el ID
+            { _id: new ObjectId(messageId) },   // On utilise l'id du message pour l'ajouter une réponse
             { $push: { replyList: reply } }
         );
 
@@ -86,8 +92,6 @@ class Message {
 
         return messages.map(m => new Message(m));
     }
-
-    
 
 }
 

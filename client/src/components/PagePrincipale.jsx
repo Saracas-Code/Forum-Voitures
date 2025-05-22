@@ -37,7 +37,6 @@ const PagePrincipale = ({ currentUser, setCurrentUser }) => {
                     </div>
                     <Recherche onSearch={setFilters} />
                 </header>
-                {/* AQUI IRÁ EL FORUM */}
                 <main>
                     <Forum 
                         currentUser={currentUser} 

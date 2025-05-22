@@ -5,7 +5,7 @@ const { getDB } = require("./db");
 
 const router = express.Router();
 
-// TYPICAL SERVICES : Login, Logout, SignUp, isLogged (vérifier la cookie)
+//** TYPICAL SERVICES : Login, Logout, SignUp, isLogged (vérifier la cookie) **//
 
 // Connexion
 router.post("/login", async (req, res) => {
@@ -75,9 +75,11 @@ router.get("/isLogged", (req, res) => {
 });
 
 
+//** SERVICES DE MESSAGES ET RÉPONSES : getMessages, addMessage, addReply **//
+
 // GET /api/messages?private=true|false&user=...&keyword=...&startDate=...&endDate=...
 // Retrouver les messages du forum privé ou forum publique
-// Cette méthode permet aussi de retrouver les messages filtrés
+// Cette méthode permet aussi de retrouver les messages filtrés par autheur, mot clé, et dates de début et fin
 router.get("/messages", async (req, res) => {
     const isPrivate = req.query.private === "true";
     if (isPrivate && req.session?.user?.role !== "admin") {
@@ -109,24 +111,25 @@ router.post("/messages", async (req, res) => {
     }
 
     try {
-        const message = new Message({
+        const message = await new Message({
             title,
             content,
             user,
             isPrivate,
-            date: new Date(),       
-            replyList: []           
-        });
+            date: new Date(),
+            replyList: []
+        }).save();
 
-        await message.save();
-        res.status(201).json(message);
+        res.status(201).json(message); // ← ahora incluye _id
     } catch (err) {
         console.error("Erreur dans POST /api/messages:", err);
         res.status(500).json({ error: "Erreur serveur." });
     }
 });
 
+
 // POST /api/messages/:id/reply
+// Ajouter une reply à un message
 router.post("/messages/:id/reply", async (req, res) => {
     const { id } = req.params;
     const { content } = req.body;

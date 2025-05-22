@@ -16,6 +16,11 @@ const Message = ({ message }) => {
     const handleSendReply = async () => {
         if (!replyText.trim()) return;
         try {
+            console.log(_id);
+            console.log(title);
+            console.log(content);
+            console.log(date)
+            console.log(user)
             const res = await axios.post(`http://localhost:3000/api/messages/${_id}/reply`, {
                 content: replyText
             }, { withCredentials: true });

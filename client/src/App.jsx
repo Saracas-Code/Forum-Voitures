@@ -6,42 +6,38 @@ import './App.css';
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-function RedirectOnStart({ currentUser }) {
+// Recuperar user automáticamente al cargar la app
+function RedirectOnStart({ setCurrentUser }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (currentUser) {
-        navigate("/forum");
-        } else {
-        navigate("/login");
-        }
-    }, [navigate, currentUser]);
+        axios.get("http://localhost:3000/api/isLogged", { withCredentials: true })
+            .then((res) => {
+                if (res.data.logged) {
+                    setCurrentUser(res.data.user);
+                    navigate("/forum");
+                } else {
+                    setCurrentUser(null);
+                    navigate("/login");
+                }
+            })
+            .catch(() => {
+                setCurrentUser(null);
+                navigate("/login");
+            });
+    }, [navigate, setCurrentUser]);
 
     return <p>Chargement...</p>;
 }
 
+
 function App() {
     const [currentUser, setCurrentUser] = useState(null);
-
-    // Recuperar user automáticamente al cargar la app
-    useEffect(() => {
-        axios.get("http://localhost:3000/api/isLogged", { withCredentials: true })
-        .then((res) => {
-            if (res.data.logged) {
-            setCurrentUser(res.data.user);
-            } else {
-            setCurrentUser(null);
-            }
-        })
-        .catch(() => {
-            setCurrentUser(null);
-        });
-    }, []);
 
     return (
         <Router>
         <Routes>
-            <Route path="/" element={<RedirectOnStart currentUser={currentUser} />} />
+            <Route path="/" element={<RedirectOnStart setCurrentUser={setCurrentUser} />} />
             <Route path="/forum" element={<PagePrincipale currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
             <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
             <Route path="/register" element={<Enregistrement />} />

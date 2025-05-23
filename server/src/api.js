@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("./entities/user");
 const Message = require("./entities/messages");
 const { getDB } = require("./db");
+const { ObjectId } = require("mongodb");
 
 const router = express.Router();
 
@@ -25,13 +26,14 @@ router.post("/login", async (req, res) => {
         return res.status(401).json({ message: "Mot de passe incorrect." });
     }
 
+    // GARDER LA SESSION ACTUELLE. On ne garde que les informations qui sont inmutables et utiles pour le fonctionnement de la web
     req.session.user = {
+        _id: user._id,
         login: user.login,
-        prenom: user.prenom,
-        nom: user.nom,
-        role: user.role,
-        description: user.description,
-    }; // GARDER LA SESSION ACTUELLE
+        email: user.email,
+        role: user.role
+    };
+
 
     res.status(200).json({ message: "Connexion réussie", user: req.session.user });
 });
@@ -75,19 +77,25 @@ router.get("/isLogged", (req, res) => {
 });
 
 
-//** SERVICES DE MESSAGES ET RÉPONSES : getMessages, addMessage, addReply **//
+//** SERVICES DE MESSAGES : getMessages, addMessage, deleteMessage **//
 
-// GET /api/messages?private=true|false&user=...&keyword=...&startDate=...&endDate=...
-// Retrouver les messages du forum privé ou forum publique
+// GET /api/messages?private=true|false&user=...&userLogin=...&keyword=...&startDate=...&endDate=...&all=true
+// Retrouver les messages du forum privé et/ou forum publique
 // Cette méthode permet aussi de retrouver les messages filtrés par autheur, mot clé, et dates de début et fin
+// GET /api/messages?private=true|false&userLogin=emma&...
 router.get("/messages", async (req, res) => {
     const isPrivate = req.query.private === "true";
-    if (isPrivate && req.session?.user?.role !== "admin") {
-        return res.status(403).json({ error: "Accès interdit." });
+    const all = req.query.all === "true";
+
+    if (all && req.session?.user?.role !== "admin") {
+        return res.status(403).json({ error: "Accès interdit à tous les messages." });
     }
 
     try {
-        const messages = await Message.findWithFilters(req.query, isPrivate);
+        const messages = all
+            ? await Message.findAllOfUser(req.query.user || req.query.userLogin)
+            : await Message.findWithFilters(req.query, isPrivate);
+
         res.json(messages);
     } catch (err) {
         console.error("Erreur GET /messages:", err);
@@ -96,17 +104,19 @@ router.get("/messages", async (req, res) => {
 });
 
 
+
 // POST /api/messages
 // Ajouter un nouveau message
+// POST /api/messages
 router.post("/messages", async (req, res) => {
     const { title, content, isPrivate = false } = req.body;
-    const user = req.session?.user?.login || "inconnu";
 
-    if (!title || !content) {
-        return res.status(400).json({ error: "Titre ou contenu manquant." });
+    const sessionUser = req.session?.user;
+    if (!title || !content || !sessionUser?._id || !sessionUser.login) {
+        return res.status(400).json({ error: "Données manquantes." });
     }
 
-    if (isPrivate && req.session?.user?.role !== "admin") {
+    if (isPrivate && sessionUser.role !== "admin") {
         return res.status(403).json({ error: "Accès interdit." });
     }
 
@@ -114,13 +124,14 @@ router.post("/messages", async (req, res) => {
         const message = await new Message({
             title,
             content,
-            user,
+            user: new ObjectId(sessionUser._id),
+            userLogin: sessionUser.login,
             isPrivate,
             date: new Date(),
             replyList: []
         }).save();
 
-        res.status(201).json(message); // ← ahora incluye _id
+        res.status(201).json(message);
     } catch (err) {
         console.error("Erreur dans POST /api/messages:", err);
         res.status(500).json({ error: "Erreur serveur." });
@@ -128,19 +139,77 @@ router.post("/messages", async (req, res) => {
 });
 
 
+// DELETE /api/messages/:id
+// Effacer un message propre
+router.delete("/messages/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await Message.deleteById(id);
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "Message non trouvé." });
+        }
+
+        res.status(200).json({ message: "Message supprimé avec succès." });
+    } catch (err) {
+        console.error("Erreur DELETE /messages/:id :", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
+
+//** SERVICES DE RÉPONSES : getMessages, addMessage, deleteMessage **//
+
+// GET /api/replies?userId=...
+// Retourner les replies d'un user
+router.get("/replies", async (req, res) => {
+    const { userId } = req.query;
+
+    if (!userId) return res.status(400).json({ error: "Paramètre 'userId' requis." });
+
+    try {
+        const replies = await Message.findRepliesByUser(new ObjectId(userId));
+        res.json(replies);
+    } catch (err) {
+        console.error("Erreur GET /replies:", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
+
+// DELETE /api/messages/:messageId/reply/:replyId
+// Effacer une reply d'un message
+router.delete("/messages/:messageId/reply/:replyId", async (req, res) => {
+    const { messageId, replyId } = req.params;
+
+    try {
+        const result = await Message.deleteReplyById(messageId, replyId);
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: "Réponse non trouvée ou déjà supprimée." });
+        }
+
+        res.status(200).json({ message: "Réponse supprimée avec succès." });
+    } catch (err) {
+        console.error("Erreur DELETE /reply:", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
 // POST /api/messages/:id/reply
 // Ajouter une reply à un message
 router.post("/messages/:id/reply", async (req, res) => {
     const { id } = req.params;
     const { content } = req.body;
-    const user = req.session?.user?.login || "inconnu";
 
-    if (!content || !id) {
+    const sessionUser = req.session?.user;
+    if (!content || !id || !sessionUser?._id || !sessionUser.login) {
         return res.status(400).json({ error: "Contenu ou ID manquant." });
     }
 
     try {
-        const reply = await Message.addReply(id, content, user);
+        const reply = await Message.addReply(id, content, sessionUser._id, sessionUser.login);
         if (!reply) {
             return res.status(404).json({ error: "Message non trouvé." });
         }
@@ -151,7 +220,53 @@ router.post("/messages/:id/reply", async (req, res) => {
     }
 });
 
+
 //** SERVICES DE USERS : getUsers, changeRole **//
+
+// GET /api/users/me
+// Récupérer les infos complètes du user courant
+router.get("/users/me", async (req, res) => {
+    if (!req.session?.user?._id) {
+        return res.status(401).json({ error: "Utilisateur non connecté." });
+    }
+
+    try {
+        const db = getDB();
+        const user = await db.collection("users").findOne(
+            { _id: new ObjectId(req.session.user._id) },
+            { projection: { password: 0 } }
+        );
+
+        if (!user) {
+            return res.status(404).json({ error: "Utilisateur non trouvé." });
+        }
+
+        res.status(200).json(user);
+    } catch (err) {
+        console.error("Erreur GET /users/me :", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
+// PUT /api/users/:id
+// Mettre à jour les infos de profil d'un utilisateur
+router.put("/users/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await User.updateProfileById(id, req.body);
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: "Utilisateur non trouvé ou rien à mettre à jour." });
+        }
+
+        res.status(200).json({ message: "Profil mis à jour avec succès." });
+    } catch (err) {
+        console.error("Erreur PUT /users/:id :", err.message);
+        res.status(400).json({ error: err.message });
+    }
+});
+
 
 // GET /api/users?validated=true|false
 // Récupérer les utilisateurs filtrés par validation
@@ -189,6 +304,7 @@ router.put("/users/:id/role", async (req, res) => {
 });
 
 // PUT /api/users/:id/validate
+// Valider un utilisateur dans le forum
 router.put("/users/:id/validate", async (req, res) => {
     const { id } = req.params;
 
@@ -233,8 +349,6 @@ router.get("/users/pending-count", async (req, res) => {
         res.status(500).json({ error: "Erreur serveur." });
     }
 });
-
-
 
 
 module.exports = router;

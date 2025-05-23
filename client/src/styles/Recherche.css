@@ -14,8 +14,8 @@
     font-family: 'Trebuchet MS', sans-serif;
     font-weight: bolder;
     font-size: 30px;
-    color: var(--background-color);
-    text-shadow: 1px 1px 0px var(--shadows);
+    color: var(--secondary-color);
+    text-shadow: 2px 2px 0px var(--shadows);
     margin-bottom: 15px;
 }
 

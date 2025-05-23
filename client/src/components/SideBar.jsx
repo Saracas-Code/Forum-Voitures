@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/Sidebar.css";
-import { FaUser, FaSignOutAlt, FaInfoCircle, FaClipboardList, FaUserLock, FaIdBadge, FaArrowLeft, FaUsers } from "react-icons/fa";
+import { FaUser, FaSignOutAlt, FaInfoCircle, FaClipboardList, FaUserLock, FaIdBadge, FaArrowLeft, FaUsers, FaEnvelope } from "react-icons/fa";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -22,23 +22,26 @@ function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView,
   return (
     <div className="sidebar">
       <ul className="menu-content">
+        {/* Login user */}
         <li>
           <FaUser />
           <span className="menu-label">
-            {currentUser ? `${currentUser.prenom} ${currentUser.nom}` : "Undefined"}
+            {currentUser ? `${currentUser.login}` : "Undefined"}
           </span>
         </li>
 
+        {/* Email user */}
         <li className="menu-item">
           <div className="menu-label-wrapper">
-            <FaInfoCircle />
-            <span className="menu-label">Description</span>
+            <FaEnvelope />
+            <span className="menu-label">Email</span>
           </div>
           <div className="menu-description">
-            {currentUser?.description || "Pas de description"}
+            {currentUser?.email || "Pas de email"}
           </div>
         </li>
 
+        {/* Voir d'autres profiles */}
         {!showInscriptions && (
           <li onClick={() => {
             if (showUserList) {
@@ -59,6 +62,7 @@ function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView,
         {/* ADMIN OPTIONS */}
         {currentUser?.role === "admin" && !showProfile && !showUserList && (
           <>
+            {/* Inscriptions */}
             <li onClick={() => {
               setShowInscriptions(prev => !prev);
               setShowUserList(false);
@@ -70,6 +74,8 @@ function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView,
                 {showInscriptions ? "Retour au forum" : `Inscriptions${pendingCount > 0 ? ` (${pendingCount})` : ""}`}
               </span>
             </li>
+
+            {/* Forum privé / publique */}
             {!showInscriptions && (
               <li onClick={() => setIsPrivateView(prev => !prev)}>
                 <FaUserLock />
@@ -82,7 +88,7 @@ function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView,
         )}
       </ul>
 
-      {/* Logout and profile */}
+      {/* Profile */}
       <ul className="bottom-container">
         {!showInscriptions && (
           <li onClick={() => {
@@ -100,6 +106,8 @@ function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView,
             </span>
           </li>
         )}
+
+        {/* Logout */}
         <li onClick={handleLogout}>
           <FaSignOutAlt />
           <span className="menu-label">Déconnexion</span>

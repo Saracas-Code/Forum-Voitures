@@ -1,0 +1,9 @@
+#liste_msg {
+    padding: 20px;
+    width: 100%;
+    min-height:500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaciado entre mensajes */
+    box-sizing: border-box;
+}

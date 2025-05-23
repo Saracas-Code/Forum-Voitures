@@ -73,13 +73,3 @@
 #add_message:hover {
     background-color: var(--primary-color); /* Color más oscuro al pasar el cursor */
 }
-
-#liste_msg {
-    padding: 20px;
-    width: 100%;
-    min-height:500px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px; /* Espaciado entre mensajes */
-    box-sizing: border-box;
-}

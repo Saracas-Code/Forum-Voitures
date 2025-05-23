@@ -21,8 +21,8 @@ const ProfileView = ({ user, currentUser, onRoleChange, onReject, onValidate, is
         }
     };
 
-    // Si estamos en el modo inscripción :
-    // Validar usuario (asignar rol "member")
+    // MODE INSCRIPTION :
+    // Valider user (asignar rol "member")
     const handleValidate = async () => {
         try {
             await onValidate(user._id);
@@ -33,7 +33,7 @@ const ProfileView = ({ user, currentUser, onRoleChange, onReject, onValidate, is
         }
     };
 
-    // Rechazar usuario
+    // Rejecter user
     const handleReject = () => {
         if (window.confirm(`Êtes-vous sûr de vouloir supprimer ${user.login} ?`)) {
             console.log(user._id);
@@ -55,10 +55,10 @@ const ProfileView = ({ user, currentUser, onRoleChange, onReject, onValidate, is
                 {isInscription ? (
                     <>
                         <button className="reject-btn" onClick={handleReject}>
-                            Rejeter utilisateur
+                            Rejeter user
                         </button>
                         <button className="toggle-admin-btn" onClick={handleValidate}>
-                            Valider utilisateur
+                            Valider user
                         </button>
                     </>
                 ) : (

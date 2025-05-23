@@ -85,6 +85,23 @@ class User {
         return result;
     }
 
+    static async updateProfileById(id, updates) {
+        const db = getDB();
+
+        const { prenom, nom, description } = updates;
+
+        if (!prenom || !nom || !description) {
+            throw new Error("Champs manquants dans les données du profil.");
+        }
+
+        const result = await db.collection("users").updateOne(
+            { _id: new ObjectId(id) },
+            { $set: { prenom, nom, description } }
+        );
+
+        return result;
+    }
+
 
     static async deleteById(id) {
         const db = getDB();

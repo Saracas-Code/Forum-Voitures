@@ -8,7 +8,8 @@
 
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 25px;
-    background-color: var(--background-color); 
+    /* background-image: url('./assets/light_background_double_width.png'); */
+    background-color: var(--background-color);
 }
 
 .prenom_nom {

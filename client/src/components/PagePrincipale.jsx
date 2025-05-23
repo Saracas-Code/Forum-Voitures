@@ -90,7 +90,6 @@ const PagePrincipale = ({ currentUser, setCurrentUser }) => {
                     />
                 ) : showProfile ? (
                     <Profile
-                    currentUser={currentUser}
                     setShowProfile={setShowProfile}
                     />
                 ) : (

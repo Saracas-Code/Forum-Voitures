@@ -1,117 +1,123 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import "../styles/Profile.css";
+import UserInfo from "./UserInfo";
+import UserActivity from "./UserActivity";
 
-const Profile = ({ currentUser, setShowProfile }) => {
+const Profile = ({ setShowProfile }) => {
 
     const [editMode, setEditMode] = useState(false);
-    const [userData, setUserData] = useState({
-        prenom: currentUser?.prenom || "",
-        nom: currentUser?.nom || "",
-        role: currentUser?.role || "",
-        description: currentUser?.description || "",
-        login: currentUser?.login,
-        email: currentUser?.email
-    });
+    const [originalData, setOriginalData] = useState(null);
+    const [userData, setUserData] = useState(null);
+
+    const [userMessages, setUserMessages] = useState([]);
+    const [userReplies, setUserReplies] = useState([]);
+
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            try {
+                const userRes = await axios.get("http://localhost:3000/api/users/me", {
+                    withCredentials: true
+                });
+
+                setUserData(userRes.data);
+                console.log(userRes.data);
+
+                const msgRes = await axios.get(
+                    `http://localhost:3000/api/messages?user=${userRes.data._id}&all=true`,
+                    { withCredentials: true }
+                );
+
+                const replyRes = await axios.get(
+                    `http://localhost:3000/api/replies?userId=${userRes.data._id}`,
+                    { withCredentials: true }
+                );
+
+                setUserMessages(msgRes.data);
+                setUserReplies(replyRes.data);
+            } catch (err) {
+                console.error("Erreur chargement des données de profil :", err);
+            }
+        };
+
+        fetchProfileData();
+    }, []);
+
 
     const handleSave = async () => {
         try {
-            await axios.put(`http://localhost:3000/api/users/${userData.login}`, {
+            await axios.put(`http://localhost:3000/api/users/${userData._id}`, {
                 prenom: userData.prenom,
                 nom: userData.nom,
                 description: userData.description
             }, { withCredentials: true });
 
             setEditMode(false);
+            setOriginalData(null);
         } catch (err) {
             console.error("Erreur lors de la mise à jour du profil :", err);
         }
     };
 
     const handleCancel = () => {
-        setUserData({
-            ...userData,
-            prenom: currentUser.prenom,
-            nom: currentUser.nom,
-            description: currentUser.description
-        });
+        if (originalData) {
+            setUserData(originalData);
+            setOriginalData(null); // Limpia la snapshot después de usarla
+        }
         setEditMode(false);
     };
 
-    const toggleAdmin = async () => {
+    const handleDeleteMessage = async (id) => {
+        if (!window.confirm("Supprimer ce message ?")) return;
         try {
-            const newRole = userData.role === "admin" ? "member" : "admin";
-            await axios.put(`http://localhost:3000/api/users/${userData.login}/role`, { role: newRole }, { withCredentials: true });
-            setUserData(prev => ({ ...prev, role: newRole }));
+            await axios.delete(`http://localhost:3000/api/messages/${id}`, { withCredentials: true });
+
+            // Actualiza los mensajes localmente
+            setUserMessages((prev) => prev.filter((msg) => msg._id !== id));
+
+            // Vuelve a recuperar las replies desde el backend
+            const replyRes = await axios.get(`http://localhost:3000/api/replies?userId=${userData._id}`, {
+                withCredentials: true,
+            });
+            setUserReplies(replyRes.data);
+
         } catch (err) {
-            console.error("Erreur lors du changement de rôle :", err);
+            console.error("Erreur lors de la suppression du message ou du rafraîchissement des réponses :", err);
         }
     };
 
-    return (
+    const handleDeleteReply = async (messageId, replyId) => {
+        if (!window.confirm("Supprimer cette réponse ?")) return;
+        try {
+            console.log(messageId, replyId)
+            await axios.delete(`http://localhost:3000/api/messages/${messageId}/reply/${replyId}`, {
+            withCredentials: true,
+            });
+            setUserReplies((prev) => prev.filter((r) => r._id !== replyId));
+        } catch (err) {
+            console.error("Erreur lors de la suppression de la réponse :", err);
+        }
+    };
+    
+    return userData && (
         <div className="profile-container">
-            <div className="user-info">
-                <div className="avatar-section">
-                    <div className="avatar-placeholder">👤</div>
-                    <div className="credentials">
-                        <p><strong>Login :</strong> {userData.login}</p>
-                        <p><strong>Email :</strong> {userData.email}</p>
-                    </div>
-                </div>
-
-                <div className="field">
-                    <label>Prénom</label>
-                    {editMode ? (
-                        <input value={userData.prenom} onChange={(e) => setUserData({ ...userData, prenom: e.target.value })} />
-                    ) : (
-                        <p>{userData.prenom}</p>
-                    )}
-                </div>
-
-                <div className="field">
-                    <label>Nom</label>
-                    {editMode ? (
-                        <input value={userData.nom} onChange={(e) => setUserData({ ...userData, nom: e.target.value })} />
-                    ) : (
-                        <p>{userData.nom}</p>
-                    )}
-                </div>
-
-                <div className="field">
-                    <label>Rôle</label>
-                    <p>{userData.role}</p>
-                </div>
-
-                <div className="field">
-                    <label>Description</label>
-                    {editMode ? (
-                        <textarea value={userData.description} onChange={(e) => setUserData({ ...userData, description: e.target.value })} />
-                    ) : (
-                        <p>{userData.description}</p>
-                    )}
-                </div>
-
-                {/* Solo tú puedes editar tu perfil */}
-                {(
-                    <div className="button-group">
-                        {!editMode && <button onClick={() => setEditMode(true)}>Éditer</button>}
-                        {editMode && (
-                            <>
-                                <button className="save-btn" onClick={handleSave}>Garder</button>
-                                <button className="cancel-btn" onClick={handleCancel}>Annuler</button>
-                            </>
-                        )}
-                    </div>
-                )}
-            </div>
-
-            <div className="user-messages">
-                <h3>Liste de messages de {userData.prenom} {userData.nom}</h3>
-                <div className="message-placeholder">Message 1</div>
-                <div className="message-placeholder">Message 2</div>
-                <div className="message-placeholder">Message 3</div>
-            </div>
+            <UserInfo
+                userData={userData}
+                editMode={editMode}
+                setEditMode={setEditMode}
+                setOriginalData={setOriginalData}
+                setUserData={setUserData}
+                handleSave={handleSave}
+                handleCancel={handleCancel}
+            />
+            <UserActivity
+                prenom={userData.prenom}
+                userMessages={userMessages}
+                userReplies={userReplies}
+                handleDeleteMessage={handleDeleteMessage}
+                handleDeleteReply={handleDeleteReply}
+            />
         </div>
     );
 };

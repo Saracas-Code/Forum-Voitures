@@ -16,7 +16,7 @@ html {
   --primary-color: #056676;
   --secondary-color: #5EAAA8;
   --background-color: #E8DED2;
-  --form-background: #dfd2c2;
+  --form-background: rgba(223, 210, 194, 0.8);
 
   --details: #ccc;
 
@@ -24,6 +24,7 @@ html {
   --shadows : black;
 
   /* Pour les messages du forum */
+  --message-background: #f5f2eb;
   --reply-background: #f9f9f9;
   --title-msg: #333;
   --content-msg: #444;
@@ -35,11 +36,12 @@ html {
 :root.dark-mode {
   --primary-color: #1a2f5c;       /* Header + Sidebar */
   --background-color: #a7bfdc;    /* Fondo general claro */
-  --form-background: #f1f5f9;     /* Formularios aún más claros */
   --secondary-color: #576d8c;     /* Detalles o botones */
-  
+  --form-background: #f1f5f9;     /* Formularios aún más claros */
+
   --details: #555;
 
+  --message-background: #d6e1f0;
   --reply-background: #c8d8eb;
   --title-msg: #232c51;
   --content-msg: #49545a;
@@ -47,8 +49,8 @@ html {
   --no-replies : #5d7e98;
 }
 
-
 body {
+  /*background-image: url('./assets/light_background_double_width.png');*/
   font-family: Verdana, Arial, Helvetica, sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);

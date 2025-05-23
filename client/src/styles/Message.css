@@ -1,5 +1,15 @@
 /* Message.css */
 
+.message {
+  background-color: var(--message-background); /* Define esto en tus variables si no existe */
+  padding: 16px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease;
+}
+
+
 .message-title {
   font-weight: bold;
   font-size: 22px;

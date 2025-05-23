@@ -1,0 +1,645 @@
+{
+	"id": "bd4f3b56-b204-4f79-92b5-51aa6628e0f6",
+	"name": "Forum-Voitures",
+	"timestamp": "2025-05-23T19:36:38.367Z",
+	"collection_id": "45245012-9a205330-0f35-463e-942a-7686a028e22a",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 33,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-05-23T19:36:36.408Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "73cae845-bda8-4baf-bfb6-0f055959a98c",
+			"name": "SignUp",
+			"url": "http://localhost:3000/api/register",
+			"time": 152,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Response contains message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response contains message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				152
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Response contains message": true
+				}
+			]
+		},
+		{
+			"id": "149616f9-535f-432f-8776-654fdf509f98",
+			"name": "GetIdLucas",
+			"url": "http://localhost:3000/api/users/id-by-login?login=lucas",
+			"time": 18,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				18
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "4d7484b0-9700-48e6-b7bf-9f542712da4e",
+			"name": "LogIn",
+			"url": "http://localhost:3000/api/login",
+			"time": 108,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Login success": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Login success": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				108
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Login success": true
+				}
+			]
+		},
+		{
+			"id": "c707c69c-dee9-4612-a7b7-8b0f071e38b0",
+			"name": "getNotValidatedUsers",
+			"url": "http://localhost:3000/api/users?validated=false",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Returns array of users": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns array of users": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Returns array of users": true
+				}
+			]
+		},
+		{
+			"id": "40a29056-aac8-4e5a-9642-3d435358d6e4",
+			"name": "ValidateMember",
+			"url": "http://localhost:3000/api/users/6830ce441738474d2f98bf13/validate",
+			"time": 37,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Validation message is correct": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Validation message is correct": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				37
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Validation message is correct": true
+				}
+			]
+		},
+		{
+			"id": "9931bcc8-4cb6-40f6-969d-1ec869283d58",
+			"name": "DeleteValidatedUser",
+			"url": "http://localhost:3000/api/users/6830ce441738474d2f98bf13",
+			"time": 22,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"User successfully deleted": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"User successfully deleted": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"User successfully deleted": true
+				}
+			]
+		},
+		{
+			"id": "8de360e4-8afe-4d24-8721-d625b5e10de4",
+			"name": "getValidatedUsers",
+			"url": "http://localhost:3000/api/users?validated=true",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Returns validated users": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns validated users": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Returns validated users": true
+				}
+			]
+		},
+		{
+			"id": "7d0c3d04-ea59-484a-9059-30262d7ed7ed",
+			"name": "MakeAdmin",
+			"url": "http://localhost:3000/api/users/682faffb43cca01635e27a78/role",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Role updated": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Role updated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Role updated": true
+				}
+			]
+		},
+		{
+			"id": "d9b20026-ccbf-4665-9706-99ec95a0c42b",
+			"name": "MakeMember",
+			"url": "http://localhost:3000/api/users/682faffb43cca01635e27a78/role",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Role updated": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Role updated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Role updated": true
+				}
+			]
+		},
+		{
+			"id": "69d83d30-2c96-4bd6-a4a1-395ba4fa1237",
+			"name": "getPublicMessages",
+			"url": "http://localhost:3000/api/messages?private=false",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Messages list received": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Messages list received": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				16
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Messages list received": true
+				}
+			]
+		},
+		{
+			"id": "4494ff18-de98-4af6-9bc9-95ce91da75f9",
+			"name": "AddMessage",
+			"url": "http://localhost:3000/api/messages",
+			"time": 31,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Message créé avec succès": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message créé avec succès": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				31
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Message créé avec succès": true
+				}
+			]
+		},
+		{
+			"id": "38abae48-adb8-4ee9-8f60-3b4d39b18302",
+			"name": "ReplyToMessage",
+			"url": "http://localhost:3000/api/messages/6830ce451738474d2f98bf14/reply",
+			"time": 22,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Reply added successfully": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Reply added successfully": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				22
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Reply added successfully": true
+				}
+			]
+		},
+		{
+			"id": "3973506b-d645-4d8d-9291-9d55e706fdde",
+			"name": "DeleteReply",
+			"url": "http://localhost:3000/api/messages/6830ce451738474d2f98bf14/reply/6830ce461738474d2f98bf15",
+			"time": 21,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Reply deletion confirmed": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Reply deletion confirmed": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Reply deletion confirmed": true
+				}
+			]
+		},
+		{
+			"id": "d84e5e83-40e6-4bc6-8982-db24524aec76",
+			"name": "DeleteMessage",
+			"url": "http://localhost:3000/api/messages/6830ce451738474d2f98bf14",
+			"time": 21,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Message deletion confirmed": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Message deletion confirmed": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Message deletion confirmed": true
+				}
+			]
+		},
+		{
+			"id": "46eba1dc-c716-4dc0-9032-5bb5ed3eef68",
+			"name": "GetMyProfile",
+			"url": "http://localhost:3000/api/users/me",
+			"time": 26,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Profile info received": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Profile info received": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				26
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Profile info received": true
+				}
+			]
+		},
+		{
+			"id": "b1671de7-c531-440e-a885-22b7997624c7",
+			"name": "isLogged",
+			"url": "http://localhost:3000/api/isLogged",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Session info OK": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Session info OK": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Session info OK": true
+				}
+			]
+		},
+		{
+			"id": "4a916892-f838-42b3-8cb2-ccf173e64d27",
+			"name": "LogOut",
+			"url": "http://localhost:3000/api/logout",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Logout success message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Logout success message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Logout success message": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 551,
+	"collection": {
+		"requests": [
+			{
+				"id": "73cae845-bda8-4baf-bfb6-0f055959a98c",
+				"method": "POST"
+			},
+			{
+				"id": "149616f9-535f-432f-8776-654fdf509f98",
+				"method": "GET"
+			},
+			{
+				"id": "4d7484b0-9700-48e6-b7bf-9f542712da4e",
+				"method": "POST"
+			},
+			{
+				"id": "c707c69c-dee9-4612-a7b7-8b0f071e38b0",
+				"method": "GET"
+			},
+			{
+				"id": "40a29056-aac8-4e5a-9642-3d435358d6e4",
+				"method": "PUT"
+			},
+			{
+				"id": "9931bcc8-4cb6-40f6-969d-1ec869283d58",
+				"method": "DELETE"
+			},
+			{
+				"id": "8de360e4-8afe-4d24-8721-d625b5e10de4",
+				"method": "GET"
+			},
+			{
+				"id": "7d0c3d04-ea59-484a-9059-30262d7ed7ed",
+				"method": "PUT"
+			},
+			{
+				"id": "d9b20026-ccbf-4665-9706-99ec95a0c42b",
+				"method": "PUT"
+			},
+			{
+				"id": "69d83d30-2c96-4bd6-a4a1-395ba4fa1237",
+				"method": "GET"
+			},
+			{
+				"id": "4494ff18-de98-4af6-9bc9-95ce91da75f9",
+				"method": "POST"
+			},
+			{
+				"id": "38abae48-adb8-4ee9-8f60-3b4d39b18302",
+				"method": "POST"
+			},
+			{
+				"id": "3973506b-d645-4d8d-9291-9d55e706fdde",
+				"method": "DELETE"
+			},
+			{
+				"id": "d84e5e83-40e6-4bc6-8982-db24524aec76",
+				"method": "DELETE"
+			},
+			{
+				"id": "46eba1dc-c716-4dc0-9032-5bb5ed3eef68",
+				"method": "GET"
+			},
+			{
+				"id": "b1671de7-c531-440e-a885-22b7997624c7",
+				"method": "GET"
+			},
+			{
+				"id": "4a916892-f838-42b3-8cb2-ccf173e64d27",
+				"method": "POST"
+			}
+		]
+	}
+}

@@ -74,10 +74,10 @@ router.post("/register", async (req, res) => {
     console.log(`[REGISTER] Nouvelle tentative d'inscription : ${login} (${email})`);
 
     try {
-        const newUser = User.create({ prenom, nom, login, email, password });
+        const newUser = await User.create({ prenom, nom, login, email, password });
 
         console.log(`[REGISTER] Inscription réussie pour : ${login} (${prenom} ${nom})`);
-        res.status(201).json({ message: "Inscription réussie. En attente de validation." });
+        res.status(201).json({ message: "Inscription réussie. En attente de validation.", user : newUser });
 
     } catch (err) {
         console.error(`[REGISTER] Erreur serveur pendant l'inscription :`, err);
@@ -417,6 +417,31 @@ router.get("/users/pending-count", async (req, res) => {
         res.status(500).json({ error: "Erreur serveur." });
     }
 });
+
+// GET /api/users/id-by-login?login=lucas
+// Cette méthode a été crée pour faire les tests Postman
+router.get("/users/id-by-login", async (req, res) => {
+    const login = req.query.login;
+
+    if (!login) {
+        return res.status(400).json({ error: "Le paramètre 'login' est requis." });
+    }
+
+    try {
+        const db = getDB();
+        const user = await db.collection("users").findOne({ login });
+
+        if (!user) {
+            return res.status(404).json({ error: "Utilisateur non trouvé." });
+        }
+
+        res.status(200).json({ _id: user._id });
+    } catch (err) {
+        console.error("Erreur dans /users/id-by-login :", err);
+        res.status(500).json({ error: "Erreur serveur." });
+    }
+});
+
 
 
 module.exports = router;

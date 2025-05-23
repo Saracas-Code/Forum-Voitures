@@ -7,6 +7,7 @@ const Reply = ({ reply, onDelete }) => {
         <div className="reply">
         <p>{reply.content || "(Pas de contenu)"}</p>
         <p className="reply-info">
+
             Par {reply.userLogin || "inconnu"} le {reply.date ? new Date(reply.date).toLocaleDateString() : "date inconnue"}
         </p>
 

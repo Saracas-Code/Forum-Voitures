@@ -35,9 +35,9 @@ html {
 /* Palette de couleurs dans le Forum privé */
 :root.dark-mode {
   --primary-color: #1a2f5c;       /* Header + Sidebar */
-  --background-color: #a7bfdc;    /* Fondo general claro */
-  --secondary-color: #576d8c;     /* Detalles o botones */
-  --form-background: #f1f5f9;     /* Formularios aún más claros */
+  --background-color: #a7bfdc;    
+  --secondary-color: #576d8c;    
+  --form-background: #f1f5f9;     
 
   --details: #555;
 
@@ -50,7 +50,7 @@ html {
 }
 
 body {
-  /*background-image: url('./assets/light_background_double_width.png');*/
+  background-image: url('./assets/logo.webp'); 
   font-family: Verdana, Arial, Helvetica, sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import axios from 'axios'
@@ -7,7 +7,7 @@ import axios from 'axios'
 import "../styles/forms.css"
 import "../styles/Login.css"
 
-const Login = ({ setCurrentUser }) => {
+const Login = ({ currentUser, setCurrentUser }) => {
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -20,48 +20,39 @@ const Login = ({ setCurrentUser }) => {
 
     // Fonction pour vérifier l'authentification
     const handleSubmit = async (event) => {
-        event.preventDefault(); // Éviter que la page se recharge
+        event.preventDefault();
 
         if (!login || !password) {
             setError("Veuillez remplir tous les champs.");
             return;
         }
 
-        // DEMANDE À LA DATABASE SI L'USER EXISTE OU PAS.
         try {
-            // Request avec axios
-            const response = await axios.post("http://localhost:3000/api/login", 
-            // Body
-            {
-                login: login,
-                password: password
-            },
-            // Config de petition
-            {
-                withCredentials: true // cookies
+            const response = await axios.post("http://localhost:3000/api/login", {
+                login,
+                password
+            }, {
+                withCredentials: true
             });
 
-            // Si la réponse est bonne, on va au forum
-            if (response.status === 200) {
-                const isLoggedResponse = await axios.get("http://localhost:3000/api/isLogged", {
-                    withCredentials: true
-                });
-
-                if(isLoggedResponse.data.logged) {
-                    setCurrentUser(isLoggedResponse.data.user); // UPDATE CURRENT USER
-                    navigate("/forum");
-                }
+            if (response.status === 200 && response.data.user) {
+                setCurrentUser(response.data.user); 
             }
         } catch (err) {
-            // S'il y a quelque erreur, afficher le message
             if (err.response) {
-                // Si el error es de la respuesta del servidor
                 setError(err.response.data.message);
             } else {
                 setError("Erreur de connexion, veuillez réessayer.");
             }
         }
     };
+
+    useEffect(() => {
+        if (currentUser) {
+            navigate("/forum");
+        }
+    }, [currentUser, navigate]);
+
 
     const handleReset = () => {
         setLogin("");

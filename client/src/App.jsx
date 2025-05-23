@@ -29,10 +29,9 @@ function App() {
     return (
         <Router>
         <Routes>
-            <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
+            <Route path="/login" element={<Login currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
             <Route path="/register" element={<Enregistrement />} />
             <Route path="/forum" element={<PagePrincipale currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
-            <Route path="/profile" element={<Profile currentUser={currentUser} />} />
             <Route path="/" element={<Navigate to={currentUser ? "/forum" : "/login"} />} />
         </Routes>
         </Router>

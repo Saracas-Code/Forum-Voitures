@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt");
 const User = require("./entities/user");
 const Message = require("./entities/messages");
 const { getDB } = require("./db");
@@ -21,7 +22,9 @@ router.post("/login", async (req, res) => {
         return res.status(403).json({ message: "Compte non validé par l’admin." });
     }
 
-    const valid = user.validatePassword(password);
+    //const valid = user.validatePassword(password);
+    const valid = await bcrypt.compare(password, user.password);
+
     if (!valid) {
         return res.status(401).json({ message: "Mot de passe incorrect." });
     }
@@ -34,8 +37,15 @@ router.post("/login", async (req, res) => {
         role: user.role
     };
 
+    req.session.save((err) => {
+        if (err) {
+            console.error("Erreur sauvegarde session :", err);
+            return res.status(500).json({ message: "Erreur serveur lors de la connexion." });
+        }
 
-    res.status(200).json({ message: "Connexion réussie", user: req.session.user });
+        // ✅ Solo se envía la respuesta una vez que la session está bien sauvegardée
+        res.status(200).json({ message: "Connexion réussie", user: req.session.user });
+    });
 });
 
 // Logout
@@ -51,6 +61,7 @@ router.post("/logout", (req, res) => {
 
 // Enregistrement
 router.post("/register", async (req, res) => {
+
     const { prenom, nom, login, email, password } = req.body;
 
     const existing = await User.findByLogin(login);
@@ -58,7 +69,9 @@ router.post("/register", async (req, res) => {
         return res.status(409).json({ message: "Nom d'utilisateur déjà utilisé." });
     }
 
-    const newUser = new User({ prenom, nom, login, email, password });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({ prenom, nom, login, email, password: hashedPassword });
     await newUser.save();
 
     res.status(201).json({ message: "Inscription réussie. En attente de validation." });
@@ -82,21 +95,37 @@ router.get("/isLogged", (req, res) => {
 // GET /api/messages?private=true|false&user=...&userLogin=...&keyword=...&startDate=...&endDate=...&all=true
 // Retrouver les messages du forum privé et/ou forum publique
 // Cette méthode permet aussi de retrouver les messages filtrés par autheur, mot clé, et dates de début et fin
-// GET /api/messages?private=true|false&userLogin=emma&...
 router.get("/messages", async (req, res) => {
-    const isPrivate = req.query.private === "true";
-    const all = req.query.all === "true";
-
-    if (all && req.session?.user?.role !== "admin") {
-        return res.status(403).json({ error: "Accès interdit à tous les messages." });
+    const sessionUser = req.session?.user;
+    if (!sessionUser) {
+        return res.status(403).json({ error: "Utilisateur non connecté." });
     }
 
-    try {
-        const messages = all
-            ? await Message.findAllOfUser(req.query.user || req.query.userLogin)
-            : await Message.findWithFilters(req.query, isPrivate);
+    const isPrivate = req.query.private === "true";
+    const all = req.query.all === "true";
+    const requestedUserId = req.query.user;
 
-        res.json(messages);
+    try {
+        if (all) {
+            // Obligatoire : ID utilisateur
+            if (!requestedUserId) {
+                return res.status(400).json({ error: "Paramètre 'user' requis avec 'all=true'." });
+            }
+
+            // Interdire l'accès aux messages d'un autre utilisateur
+            if (requestedUserId !== sessionUser._id) {
+                return res.status(403).json({ error: "Vous ne pouvez accéder qu'à vos propres messages." });
+            }
+
+            const messages = await Message.findAllOfUser(requestedUserId);
+            return res.json(messages);
+
+        } else {
+            // Recherche avec filtres normaux
+            const messages = await Message.findWithFilters(req.query, isPrivate);
+            return res.json(messages);
+        }
+
     } catch (err) {
         console.error("Erreur GET /messages:", err);
         res.status(500).json({ error: "Erreur serveur." });
@@ -107,7 +136,6 @@ router.get("/messages", async (req, res) => {
 
 // POST /api/messages
 // Ajouter un nouveau message
-// POST /api/messages
 router.post("/messages", async (req, res) => {
     const { title, content, isPrivate = false } = req.body;
 
@@ -182,7 +210,7 @@ router.get("/replies", async (req, res) => {
 // Effacer une reply d'un message
 router.delete("/messages/:messageId/reply/:replyId", async (req, res) => {
     const { messageId, replyId } = req.params;
-
+    
     try {
         const result = await Message.deleteReplyById(messageId, replyId);
 
@@ -253,6 +281,11 @@ router.get("/users/me", async (req, res) => {
 router.put("/users/:id", async (req, res) => {
     const { id } = req.params;
 
+    // Vérifie que l'utilisateur modifie uniquement son propre profil
+    if (!req.session?.user || id !== req.session.user._id.toString()) {
+        return res.status(403).send("L'utilisateur ne peut modifier que ses propres informations.");
+    }
+
     try {
         const result = await User.updateProfileById(id, req.body);
 
@@ -286,6 +319,11 @@ router.put("/users/:id/role", async (req, res) => {
     const { id } = req.params;
     const { role } = req.body;
 
+    if (req.session?.user?.role != "admin"){
+        return res.status(403).send("Uniquement un admin peut modifier le role d'un user");
+    }
+        
+
     if (!role || !["admin", "member"].includes(role)) {
         return res.status(400).json({ error: "Rôle invalide." });
     }
@@ -308,6 +346,10 @@ router.put("/users/:id/role", async (req, res) => {
 router.put("/users/:id/validate", async (req, res) => {
     const { id } = req.params;
 
+    if (req.session?.user?.role != "admin"){
+        return res.status(403).send("Uniquement un admin peut valider un user");
+    }
+
     try {
         const result = await User.validateById(id);
 
@@ -327,6 +369,11 @@ router.put("/users/:id/validate", async (req, res) => {
 // Rejecter la petition d'un utilisateur d'accès au forum
 router.delete("/users/:id", async (req, res) => {
     const { id } = req.params;
+
+    if (req.session?.user?.role != "admin"){
+        return res.status(403).send("Uniquement un admin peut rejecter un user");
+    }
+
     try {
         result = await User.deleteById(id);
 

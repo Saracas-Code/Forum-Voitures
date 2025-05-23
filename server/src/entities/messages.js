@@ -2,6 +2,7 @@ const { getDB } = require("../db");
 const { ObjectId } = require("mongodb");
 
 class Message {
+    
     constructor({ _id, title, content, user, userLogin, date = new Date(), isPrivate = false, replyList = [] }) {
         this._id = _id;
         this.title = title;
@@ -97,6 +98,11 @@ class Message {
         return messages.map(m => new Message(m));
     }
 
+    static async deleteById(id) {
+        const db = getDB();
+        return await db.collection("messages").deleteOne({ _id: new ObjectId(id) });
+    }
+
     static async addReply(messageId, content, userId, userLogin) {
         const db = getDB();
         const reply = {
@@ -146,10 +152,7 @@ class Message {
         );
     }
 
-    static async deleteById(id) {
-        const db = getDB();
-        return await db.collection("messages").deleteOne({ _id: new ObjectId(id) });
-    }
+
 }
 
 module.exports = Message;

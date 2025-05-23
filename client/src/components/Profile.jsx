@@ -14,30 +14,36 @@ const Profile = ({ setShowProfile }) => {
     const [userMessages, setUserMessages] = useState([]);
     const [userReplies, setUserReplies] = useState([]);
 
+    // Charger les informations du profil des utilisateurs
     useEffect(() => {
         const fetchProfileData = async () => {
+            console.log("[PROFILE] Chargement des données du profil...");
+
             try {
                 const userRes = await axios.get("http://localhost:3000/api/users/me", {
                     withCredentials: true
                 });
 
+                console.log("[PROFILE] Données utilisateur :", userRes.data);
                 setUserData(userRes.data);
-                console.log(userRes.data);
 
                 const msgRes = await axios.get(
                     `http://localhost:3000/api/messages?user=${userRes.data._id}&all=true`,
                     { withCredentials: true }
                 );
+                console.log(`[PROFILE] ${msgRes.data.length} message(s) récupéré(s)`);
 
                 const replyRes = await axios.get(
                     `http://localhost:3000/api/replies?userId=${userRes.data._id}`,
                     { withCredentials: true }
                 );
+                console.log(`[PROFILE] ${replyRes.data.length} réponse(s) récupérée(s)`);
 
                 setUserMessages(msgRes.data);
                 setUserReplies(replyRes.data);
+
             } catch (err) {
-                console.error("Erreur chargement des données de profil :", err);
+                console.error("[PROFILE] Erreur chargement des données :", err.message);
             }
         };
 
@@ -46,6 +52,8 @@ const Profile = ({ setShowProfile }) => {
 
 
     const handleSave = async () => {
+        console.log("[PROFILE] Enregistrement des modifications du profil...");
+
         try {
             await axios.put(`http://localhost:3000/api/users/${userData._id}`, {
                 prenom: userData.prenom,
@@ -53,52 +61,59 @@ const Profile = ({ setShowProfile }) => {
                 description: userData.description
             }, { withCredentials: true });
 
+            console.log("[PROFILE] Modifications enregistrées avec succès");
             setEditMode(false);
             setOriginalData(null);
         } catch (err) {
-            console.error("Erreur lors de la mise à jour du profil :", err);
+            console.error("[PROFILE] Erreur lors de l'enregistrement :", err.message);
         }
     };
 
     const handleCancel = () => {
+        console.log("[PROFILE] Annulation des modifications");
+
         if (originalData) {
             setUserData(originalData);
-            setOriginalData(null); // Limpia la snapshot después de usarla
+            setOriginalData(null);
         }
         setEditMode(false);
     };
 
     const handleDeleteMessage = async (id) => {
         if (!window.confirm("Supprimer ce message ?")) return;
+
+        console.log(`[PROFILE] Suppression du message : ${id}`);
+
         try {
             await axios.delete(`http://localhost:3000/api/messages/${id}`, { withCredentials: true });
-
-            // Actualiza los mensajes localmente
             setUserMessages((prev) => prev.filter((msg) => msg._id !== id));
 
-            // Vuelve a recuperar las replies desde el backend
+            console.log("[PROFILE] Message supprimé. Rafraîchissement des réponses...");
             const replyRes = await axios.get(`http://localhost:3000/api/replies?userId=${userData._id}`, {
                 withCredentials: true,
             });
             setUserReplies(replyRes.data);
-
         } catch (err) {
-            console.error("Erreur lors de la suppression du message ou du rafraîchissement des réponses :", err);
+            console.error("[PROFILE] Erreur lors de la suppression du message :", err.message);
         }
     };
 
     const handleDeleteReply = async (messageId, replyId) => {
         if (!window.confirm("Supprimer cette réponse ?")) return;
+
+        console.log(`[PROFILE] Suppression de la réponse ${replyId} du message ${messageId}`);
+
         try {
-            console.log(messageId, replyId)
             await axios.delete(`http://localhost:3000/api/messages/${messageId}/reply/${replyId}`, {
-            withCredentials: true,
+                withCredentials: true,
             });
             setUserReplies((prev) => prev.filter((r) => r._id !== replyId));
+            console.log("[PROFILE] Réponse supprimée avec succès");
         } catch (err) {
-            console.error("Erreur lors de la suppression de la réponse :", err);
+            console.error("[PROFILE] Erreur lors de la suppression de la réponse :", err.message);
         }
     };
+
     
     return userData && (
         <div className="profile-container">

@@ -1,5 +1,6 @@
 const UserInfo = ({ userData, editMode, setEditMode, handleSave, handleCancel, setUserData, setOriginalData }) => {
     return (
+        
         <div className="user-info">
         <div className="avatar-section">
             <div className="avatar-placeholder">👤</div>

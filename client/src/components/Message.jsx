@@ -15,16 +15,26 @@ const Message = ({ message, onDelete }) => {
     const { _id, title, content, date, user, userLogin } = message;
 
     const handleSendReply = async () => {
-        if (!replyText.trim()) return;
+        if (!replyText.trim()) {
+            console.warn("[REPLY] Tentative d'envoi vide ignorée.");
+            return;
+        }
+
+        console.log("[REPLY] Envoi de la réponse au message :", _id);
+        console.log("[REPLY] Contenu :", replyText);
+
         try {
             const res = await axios.post(`http://localhost:3000/api/messages/${_id}/reply`, {
                 content: replyText
             }, { withCredentials: true });
 
+            console.log("[REPLY] Réponse ajoutée avec succès :", res.data);
+
             setLocalReplies([res.data, ...localReplies]);
             setReplyText("");
             setShowReplyForm(false);
         } catch (err) {
+            console.error("[REPLY] Erreur lors de l'envoi de la réponse :", err.response?.data || err.message);
             console.error("Erreur lors de la réponse :", err);
         }
     };

@@ -50,7 +50,7 @@ html {
 }
 
 body {
-  background-image: url('./assets/logo.webp'); 
+  /*background-image: url('./assets/logo.webp'); */
   font-family: Verdana, Arial, Helvetica, sans-serif;
   background-color: var(--background-color);
   color: var(--text-color);

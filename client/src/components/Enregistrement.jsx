@@ -27,14 +27,18 @@ const Enregistrement = () => {
     // Fonction pour vérifier la registration
     const handleSubmit = (event) => {
         event.preventDefault(); // Éviter le réchargement
+
+        console.log("[ENREGISTREMENT] Formulaire soumis avec :", { prenom, nom, login, email });
     
         if (!prenom || !nom || !login || !email || !password || !retapez) {
+            console.warn("[ENREGISTREMENT] Champs manquants");
             setError("Veuillez remplir tous les champs");
             setSuccess("");
             return;
         }
     
         if (password !== retapez) {
+            console.warn("[ENREGISTREMENT] Mot de passe non confirmé");
             setError("La password n'est pas la même");
             setSuccess("");
             return;
@@ -59,14 +63,14 @@ const Enregistrement = () => {
                 withCredentials: true // cookies
             })
             .then((response) => {
-                console.log(response.data);
+                console.log("[ENREGISTREMENT] Réponse serveur :", response.data);
                 if (response.data.message) {
                     setSuccess(response.data.message);  // Réponse exiteuse => message
                 }
             })
             .catch((error) => {
-                console.error(error);
-                setError("Erreur lors de l'inscription"); // Réponse mauvaise => erreur
+                console.error("[ENREGISTREMENT] Erreur serveur :", error.response?.data || error.message);
+                setError(error.response?.data?.message || "Erreur lors de l'inscription");
             });
     };
     

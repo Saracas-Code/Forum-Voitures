@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const SALT_ROUNDS = 10;
 
 async function cleanOidsHashPasswordsAndDates(cheminFichier) {
+    
     const original = require(cheminFichier); // Charge le fichier comme module JS
     const nettoyés = [];
 

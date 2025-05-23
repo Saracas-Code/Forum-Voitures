@@ -22,7 +22,10 @@ const Login = ({ currentUser, setCurrentUser }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        console.log("[LOGIN] Tentative de connexion avec :", { login });
+
         if (!login || !password) {
+            console.warn("[LOGIN] Champs manquants.");
             setError("Veuillez remplir tous les champs.");
             return;
         }
@@ -35,13 +38,18 @@ const Login = ({ currentUser, setCurrentUser }) => {
                 withCredentials: true
             });
 
+            console.log("[LOGIN] Réponse serveur :", response.data);
+
             if (response.status === 200 && response.data.user) {
+                console.log("[LOGIN] Connexion réussie :", response.data.user.login);
                 setCurrentUser(response.data.user); 
             }
         } catch (err) {
             if (err.response) {
+                console.error("[LOGIN] Erreur côté serveur :", err.response.data.message);
                 setError(err.response.data.message);
             } else {
+                console.error("[LOGIN] Erreur réseau ou inconnue :", err.message);
                 setError("Erreur de connexion, veuillez réessayer.");
             }
         }

@@ -2,6 +2,7 @@ import Message from "./Message";
 import Reply from "./Reply";
 
 const UserActivity = ({ prenom, userMessages, userReplies, handleDeleteMessage, handleDeleteReply }) => (
+    
     <div className="user-messages">
         <h3>Messages de {prenom}</h3>
         {userMessages.length > 0 ? (

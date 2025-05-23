@@ -9,13 +9,19 @@ function SideBar({ currentUser, setCurrentUser, setIsPrivateView, isPrivateView,
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    console.log("[LOGOUT] Tentative de déconnexion...");
+
     try {
       await axios.post("http://localhost:3000/api/logout", {}, { withCredentials: true });
+
+      console.log("[LOGOUT] Déconnexion réussie. Redirection vers la page de login.");
+
       setCurrentUser(null);
-      setIsPrivateView(false); // ← volver a tema claro
+      setIsPrivateView(false);
       navigate("/login");
+
     } catch (err) {
-      console.error("Erreur lors de la déconnexion", err);
+      console.error("[LOGOUT] Erreur lors de la déconnexion :", err.response?.data || err.message);
     }
   };
 

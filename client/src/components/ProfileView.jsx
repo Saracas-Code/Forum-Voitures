@@ -5,38 +5,57 @@ const ProfileView = ({ user, currentUser, onRoleChange, onReject, onValidate, is
 
     const canToggleAdmin = currentUser?.role === "admin" && currentUser?.login !== user?.login;
 
-    // Si no es inscripción, puede cambiar entre admin/member
+    // Changer le rôle d'un utilisateur
     const handleToggleAdmin = async () => {
         const newRole = user.role === "admin" ? "member" : "admin";
 
+        if (currentUser.role != "admin") {
+            console.error(`[PROFILE VIEW] Erreur lors du changement de rôle : ${currentUser.login} n'est pas un admin`)
+        }
+
+        console.log(`[PROFILE VIEW] Tentative de changement de rôle pour ${user.login} → ${newRole}`);
+
         try {
-            console.log(user._id);
             await axios.put(`http://localhost:3000/api/users/${user._id}/role`, {
                 role: newRole
             }, { withCredentials: true });
 
+            console.log(`[PROFILE VIEW] Rôle mis à jour avec succès : ${user.login} est maintenant ${newRole}`);
             onRoleChange(user._id, newRole);
         } catch (err) {
-            console.error("Erreur lors du changement de rôle:", err);
+            console.error(`[PROFILE VIEW] Erreur lors du changement de rôle pour ${user.login} :`, err.response?.data || err.message);
         }
     };
+
 
     // MODE INSCRIPTION :
     // Valider user (asignar rol "member")
     const handleValidate = async () => {
+
+        if (currentUser.role != "admin") {
+            console.error(`[PROFILE VIEW] Erreur lors de la validation : ${currentUser.login} n'est pas un admin`)
+        }
+
+        console.log(`[PROFILE VIEW] Validation de l'utilisateur : ${user.login}`);
+
         try {
             await onValidate(user._id);
             alert(`${user.login} a été accepté avec succès dans le forum !`);
         } catch (err) {
-            console.error("Erreur lors de la validation :", err);
+            console.error(`[PROFILE VIEW] Erreur lors de la validation de ${user.login} :`, err.response?.data || err.message);
             alert(`Erreur lors de l'acceptation de ${user.login}`);
         }
     };
 
     // Rejecter user
     const handleReject = () => {
+
+        if (currentUser.role != "admin") {
+            console.error(`[PROFILE VIEW] Erreur lors de la validation : ${currentUser.login} n'est pas un admin`)
+        }
+
         if (window.confirm(`Êtes-vous sûr de vouloir supprimer ${user.login} ?`)) {
-            console.log(user._id);
+            console.log(`[PROFILE VIEW] Rejet de l'utilisateur : ${user.login}`);
             onReject(user._id);
         }
     };

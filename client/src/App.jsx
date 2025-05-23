@@ -9,14 +9,16 @@ import { useState, useEffect } from "react";
 
 // Recuperar user automáticamente al cargar la app
 function App() {
+
     const [currentUser, setCurrentUser] = useState(null);
     const [checkingSession, setCheckingSession] = useState(true);
 
     useEffect(() => {
+        console.log("[APP] currentUser mis à jour :", currentUser);
         axios.get("http://localhost:3000/api/isLogged", { withCredentials: true })
         .then((res) => {
             if (res.data.logged) {
-            setCurrentUser(res.data.user);
+                setCurrentUser(res.data.user);
             }
         })
         .finally(() => setCheckingSession(false));

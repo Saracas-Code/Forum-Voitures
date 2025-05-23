@@ -24,18 +24,25 @@ const PagePrincipale = ({ currentUser, setCurrentUser }) => {
     const [showInscriptions, setShowInscriptions] = useState(false);
 
     const fetchPendingCount = async () => {
-    try {
-        const res = await axios.get("http://localhost:3000/api/users/pending-count", {
-        withCredentials: true
-        });
-        setPendingCount(res.data.count);
-    } catch (err) {
-        console.error("Erreur lors du comptage des inscriptions:", err);
-    }
+
+        console.log("[PAGE] Récupération du nombre d'inscriptions en attente...");
+
+        try {
+            const res = await axios.get("http://localhost:3000/api/users/pending-count", {
+            withCredentials: true
+            });
+
+            console.log(`[PAGE] Inscriptions en attente : ${res.data.count}`);
+
+            setPendingCount(res.data.count);
+        } catch (err) {
+            console.error("[PAGE] Erreur lors du comptage des inscriptions :", err.message);
+        }
     };
 
     useEffect(() => {
     if (currentUser?.role === "admin") {
+        console.log("[PAGE] Utilisateur admin détecté – chargement du compteur d'inscriptions")
         fetchPendingCount();
     }
     }, [currentUser]);
@@ -43,9 +50,11 @@ const PagePrincipale = ({ currentUser, setCurrentUser }) => {
     // Appliquer dark theme au body si nous sommes dans le forum privé ou dans les inscriptions
     useEffect(() => {
         if (isPrivateView || showInscriptions) {
+            console.log("[THÈME] Mode dark activé");
             document.documentElement.classList.add("dark-mode");
             setCurrentLogo(logoPrivate);
         } else {
+            console.log("[THÈME] Mode dark desactivé");
             document.documentElement.classList.remove("dark-mode");
             setCurrentLogo(logoPublic);
         }

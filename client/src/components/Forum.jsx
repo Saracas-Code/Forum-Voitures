@@ -20,12 +20,19 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
     if (filters.startDate) params.startDate = filters.startDate;
     if (filters.endDate) params.endDate = filters.endDate;
 
+    console.log("[MESSAGES] Chargement des messages avec filtres :", params);
+
     axios.get("http://localhost:3000/api/messages", {
       params,
       withCredentials: true,
     })
-      .then((res) => setMessages(res.data))
-      .catch(console.error);
+      .then((res) => {
+        setMessages(res.data);
+        console.log(`[MESSAGES] ${res.data.length} message(s) reçu(s) du serveur.`);
+      })
+      .catch((error) => {
+        console.error("[MESSAGES] Erreur lors du chargement :", error.message);
+      });
   }, [filters, isPrivateView]); // dispara cuando cambia el filtro o el modo
 
 
@@ -34,17 +41,22 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
 
     if (!newContent.trim() || !newTitle.trim()) return;
 
+    console.log("[MESSAGES] Tentative d'ajout d'un message :", { title: newTitle, isPrivate: isPrivateView });
+
     axios.post("http://localhost:3000/api/messages", {
       title: newTitle,
       content: newContent,
       isPrivate: isPrivateView // ← muy importante
     }, { withCredentials: true })
-      .then(res => {
-        setMessages([res.data, ...messages]); // Aparece arriba
-        setNewContent("");
-        setNewTitle("");
-      })
-      .catch(console.error);
+    .then(res => {
+      console.log("[MESSAGES] Message ajouté avec succès :", res.data);
+      setMessages([res.data, ...messages]);
+      setNewContent("");
+      setNewTitle("");
+    })
+    .catch((error) => {
+      console.error("[MESSAGES] Erreur lors de l'envoi du message :", error.response?.data || error.message);
+    });
   };
 
   return (

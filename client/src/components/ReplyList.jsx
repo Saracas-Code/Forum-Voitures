@@ -9,20 +9,30 @@ const ReplyList = ({ messageId, initialReplies }) => {
     const [showReplyForm, setShowReplyForm] = useState(false);
 
     const handleSendReply = async () => {
-        if (!replyText.trim()) return;
+
+        if (!replyText.trim()) {
+            console.warn("[REPLY] Réponse vide - envoi annulé.");
+            return;
+        }
+
+        console.log(`[REPLY] Envoi d'une réponse au message ${messageId}`);
+        console.log("[REPLY] Contenu :", replyText);
 
         try {
             const res = await axios.post(`http://localhost:3000/api/messages/${messageId}/reply`, {
                 content: replyText
             }, { withCredentials: true });
 
+            console.log("[REPLY] Réponse enregistrée avec succès :", res.data);
+
             setReplies([res.data, ...replies]);
             setReplyText("");
             setShowReplyForm(false);
         } catch (err) {
-            console.error("Erreur lors de la réponse :", err);
+            console.error("[REPLY] Erreur lors de l'envoi de la réponse :", err.response?.data || err.message);
         }
     };
+
 
     return (
         <div className="replies">

@@ -1,4 +1,5 @@
 const { getDB } = require("../db");
+const bcrypt = require("bcrypt");
 const { ObjectId } = require("mongodb");
 
 class User {
@@ -33,15 +34,33 @@ class User {
         return new User(insertedUser); // devuelve el user real insertado
     }
 
+    static async create({ prenom, nom, login, email, password }) {
+        const db = getDB();
+
+        const existing = await this.findByLogin(login);
+        if (existing) {
+        throw new Error("Nom d'utilisateur déjà utilisé.");
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = new User({
+            prenom,
+            nom,
+            login,
+            email,
+            password: hashedPassword,
+        });
+
+        await newUser.save();
+
+        return newUser;
+    }
     static async findByLogin(login) {
         const db = getDB();
         const userData = await db.collection("users").findOne({ login });
         if (!userData) return null;
         return new User(userData);
-    }
-
-    validatePassword(inputPassword) {
-        return inputPassword === this.password;
     }
 
     static async findAllFiltered(validatedFilter) {
@@ -58,6 +77,10 @@ class User {
         return users.map(u => new User(u));
     }
 
+    //validatePassword(inputPassword) {
+    //    return inputPassword === this.password;
+    //}
+
     static async updateRoleById(id, role) {
         const db = getDB();
         const result = await db.collection("users").updateOne(
@@ -66,6 +89,8 @@ class User {
         );
         return result;
     }
+
+    
 
     static async validateById(id) {
         const db = getDB();

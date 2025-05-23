@@ -8,6 +8,6 @@
 
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 25px;
-    background-image: url('./assets/logo.webp'); 
-    /*background-color: var(--background-color);*/
+    /*background-image: url('./assets/logo.webp');*/ 
+    background-color: var(--background-color);
 }

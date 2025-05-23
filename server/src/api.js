@@ -12,24 +12,25 @@ const router = express.Router();
 // Connexion
 router.post("/login", async (req, res) => {
     const { login, password } = req.body;
+    console.log(`[LOGIN] Tentative de connexion pour : ${login}`);
 
     const user = await User.findByLogin(login);
     if (!user) {
+        console.log(`[LOGIN] Échec – utilisateur "${login}" introuvable`);
         return res.status(404).json({ message: "Utilisateur non trouvé." });
     }
 
     if (!user.isValidated) {
-        return res.status(403).json({ message: "Compte non validé par l’admin." });
+        console.log(`[LOGIN] Échec – utilisateur "${login}" non validé`);
+        return res.status(403).json({ message: "Compte non validé." });
     }
 
-    //const valid = user.validatePassword(password);
     const valid = await bcrypt.compare(password, user.password);
-
     if (!valid) {
+        console.log(`[LOGIN] Échec – mot de passe incorrect pour "${login}"`);
         return res.status(401).json({ message: "Mot de passe incorrect." });
     }
 
-    // GARDER LA SESSION ACTUELLE. On ne garde que les informations qui sont inmutables et utiles pour le fonctionnement de la web
     req.session.user = {
         _id: user._id,
         login: user.login,
@@ -39,43 +40,51 @@ router.post("/login", async (req, res) => {
 
     req.session.save((err) => {
         if (err) {
-            console.error("Erreur sauvegarde session :", err);
-            return res.status(500).json({ message: "Erreur serveur lors de la connexion." });
+            console.error("[LOGIN] Erreur sauvegarde session :", err);
+            return res.status(500).json({ message: "Erreur serveur." });
         }
 
-        // ✅ Solo se envía la respuesta una vez que la session está bien sauvegardée
+        console.log(`[LOGIN] Connexion réussie : ${user.login} (${user.role})`);
         res.status(200).json({ message: "Connexion réussie", user: req.session.user });
     });
 });
 
+
 // Logout
 router.post("/logout", (req, res) => {
+    const user = req.session?.user;
+    console.log(`[LOGOUT] Demande de déconnexion : ${user?.login || "anonyme"}`);
+
     req.session.destroy((err) => {
         if (err) {
+            console.error("[LOGOUT] Erreur :", err);
             return res.status(500).json({ message: "Erreur lors de la déconnexion" });
         }
-        res.clearCookie("connect.sid"); // Nombre por defecto del cookie de session
-        res.json({ message: "Déconnexion réussie" });
+
+        res.clearCookie("connect.sid");
+        console.log(`[LOGOUT] Déconnexion réussie pour ${user?.login || "utilisateur inconnu"}`);
+        res.status(200).json({ message: "Déconnexion réussie" });
     });
 });
 
 // Enregistrement
 router.post("/register", async (req, res) => {
-
     const { prenom, nom, login, email, password } = req.body;
 
-    const existing = await User.findByLogin(login);
-    if (existing) {
-        return res.status(409).json({ message: "Nom d'utilisateur déjà utilisé." });
+    console.log(`[REGISTER] Nouvelle tentative d'inscription : ${login} (${email})`);
+
+    try {
+        const newUser = User.create({ prenom, nom, login, email, password });
+
+        console.log(`[REGISTER] Inscription réussie pour : ${login} (${prenom} ${nom})`);
+        res.status(201).json({ message: "Inscription réussie. En attente de validation." });
+
+    } catch (err) {
+        console.error(`[REGISTER] Erreur serveur pendant l'inscription :`, err);
+        res.status(500).json({ message: "Erreur serveur pendant l'inscription." });
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const newUser = new User({ prenom, nom, login, email, password: hashedPassword });
-    await newUser.save();
-
-    res.status(201).json({ message: "Inscription réussie. En attente de validation." });
 });
+
 
 // Vérifier la cookie active
 router.get("/isLogged", (req, res) => {
@@ -96,6 +105,7 @@ router.get("/isLogged", (req, res) => {
 // Retrouver les messages du forum privé et/ou forum publique
 // Cette méthode permet aussi de retrouver les messages filtrés par autheur, mot clé, et dates de début et fin
 router.get("/messages", async (req, res) => {
+
     const sessionUser = req.session?.user;
     if (!sessionUser) {
         return res.status(403).json({ error: "Utilisateur non connecté." });
@@ -105,9 +115,11 @@ router.get("/messages", async (req, res) => {
     const all = req.query.all === "true";
     const requestedUserId = req.query.user;
 
+    console.log(`[GET MESSAGES] ${sessionUser?.login} demande des messages ${isPrivate ? "privés" : "publics"}`);
+
     try {
         if (all) {
-            // Obligatoire : ID utilisateur
+            // Obligatoire : ID utilisateur. De cette façon on évite qu'un utilisateur fasse une requête pour retrouver tous les messages
             if (!requestedUserId) {
                 return res.status(400).json({ error: "Paramètre 'user' requis avec 'all=true'." });
             }
@@ -133,16 +145,18 @@ router.get("/messages", async (req, res) => {
 });
 
 
-
 // POST /api/messages
 // Ajouter un nouveau message
 router.post("/messages", async (req, res) => {
     const { title, content, isPrivate = false } = req.body;
-
     const sessionUser = req.session?.user;
+
+    console.log(`[POST MESSAGE] ${sessionUser?.login} tente d'ajouter un message`);
+
     if (!title || !content || !sessionUser?._id || !sessionUser.login) {
-        return res.status(400).json({ error: "Données manquantes." });
-    }
+            console.warn("[POST MESSAGE] Données incomplètes");
+            return res.status(400).json({ error: "Données manquantes." });
+        }
 
     if (isPrivate && sessionUser.role !== "admin") {
         return res.status(403).json({ error: "Accès interdit." });
@@ -159,6 +173,7 @@ router.post("/messages", async (req, res) => {
             replyList: []
         }).save();
 
+        console.log(`[POST MESSAGE] Nouveau message de ${sessionUser.login}: "${title}" (privé: ${isPrivate})`);
         res.status(201).json(message);
     } catch (err) {
         console.error("Erreur dans POST /api/messages:", err);
@@ -210,7 +225,7 @@ router.get("/replies", async (req, res) => {
 // Effacer une reply d'un message
 router.delete("/messages/:messageId/reply/:replyId", async (req, res) => {
     const { messageId, replyId } = req.params;
-    
+
     try {
         const result = await Message.deleteReplyById(messageId, replyId);
 
@@ -230,17 +245,23 @@ router.delete("/messages/:messageId/reply/:replyId", async (req, res) => {
 router.post("/messages/:id/reply", async (req, res) => {
     const { id } = req.params;
     const { content } = req.body;
-
     const sessionUser = req.session?.user;
+    
+    console.log(`[REPLY] ${sessionUser?.login} répond au message ${id}`);
+
     if (!content || !id || !sessionUser?._id || !sessionUser.login) {
         return res.status(400).json({ error: "Contenu ou ID manquant." });
     }
 
     try {
         const reply = await Message.addReply(id, content, sessionUser._id, sessionUser.login);
+
         if (!reply) {
+            console.log("[REPLY] Message cible non trouvé");
             return res.status(404).json({ error: "Message non trouvé." });
         }
+
+        console.log(`[REPLY] Réponse ajoutée par ${sessionUser.login}: "${content}"`);
         res.status(201).json(reply);
     } catch (err) {
         console.error("Erreur POST /messages/:id/reply:", err);

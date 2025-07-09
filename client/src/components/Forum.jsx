@@ -62,26 +62,27 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
   return (
     <div id="css_container">
       <section id="nouveau_msg">
-        <div id="new_comment">
-          <label id="title-msg">Titre</label>
-          <input
-            type="text"
-            id="title_input"
-            placeholder="Titre..."
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-          />
-          <label id="contenu-msg">Contenu</label>
-          <input
-            type="text"
-            id="message_input"
-            placeholder="Écrivez votre message ici..."
-            value={newContent}
-            onChange={(e) => setNewContent(e.target.value)}
-          />
-          <button id="add_message" onClick={handleAddMessage}>Ajouter</button>
-        </div>
+        <label htmlFor="title_input">Titre</label>
+        <input
+          type="text"
+          id="title_input"
+          placeholder="Titre..."
+          value={newTitle}
+          onChange={(e) => setNewTitle(e.target.value)}
+        />
+
+        <label htmlFor="message_input">Contenu</label>
+        <textarea
+          id="message_input"
+          placeholder="Écrivez votre message ici..."
+          value={newContent}
+          onChange={(e) => setNewContent(e.target.value)}
+          rows={5}
+        />
+
+        <button id="add_message" onClick={handleAddMessage}>Ajouter</button>
       </section>
+
 
       <MessageList messages={messages} />
     </div>

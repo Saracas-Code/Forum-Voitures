@@ -1,5 +1,5 @@
 .sidebar {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   width: 70px;
   height: 100vh;
   transition: width 0.3s ease;

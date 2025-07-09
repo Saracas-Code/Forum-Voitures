@@ -1,9 +1,14 @@
+/* MessageList.css */
+
 #liste_msg {
-    padding: 20px;
-    width: 100%;
-    min-height:500px;
+    flex: 1;
+    min-height: 500px;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Espaciado entre mensajes */
+    gap: 15px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
     box-sizing: border-box;
 }

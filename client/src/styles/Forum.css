@@ -1,75 +1,60 @@
+/* Forum.css */
+
 #css_container {
-    display:flex;
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
     height: 100%;
-    margin-left: 35px;
-    width: 100%
+    padding: 20px;
+    gap: 30px;
+    box-sizing: border-box;
+    width: 100%;
+    align-items: flex-start; /* Asegura que los elementos estén alineados arriba */
+    overflow-x: auto; /* Permite que el contenido no se desborde */
 }
+
 
 #nouveau_msg {
-    width: 100%;  /* El aside ocupará el 25% del ancho del contenedor */
-    height: 20%
-}
-
-#new_comment {
     display: flex;
-    flex-direction: row; /* Coloca el textarea y el botón en una fila */
-    align-items: stretch; /* Asegura que ambos elementos tengan la misma altura */
-    gap: 10px; /* Espaciado entre el textarea y el botón */
-    height: 100%; /* Altura total del contenedor */
-    
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+    min-width: 260px;
+    margin-left: 30px;
+    background-color: var(--background-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    flex-shrink: 0;
 }
 
-#new_comment label {
-    font-weight: bold;
-    align-self: center;
-    font-size : 20px;
-    margin-left : 20px
-}
 
+#title_input,
 #message_input {
-    width: 80%;
-    resize: none; /* Desactiva el redimensionamiento */
-    padding: 10px; /* Espaciado interno para el texto */
-    font-size: 20px; /* Tamaño de fuente */
-    border: 1px solid var(--details); /* Borde del textarea */
-    border-radius: 10px; /* Bordes redondeados */
-    box-sizing: border-box; /* Incluye el padding en el tamaño */
-    overflow: auto; /* Activa el scroll vertical */
+    width: 100%;
+    resize: none;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid var(--details);
+    border-radius: 10px;
+    box-sizing: border-box;
     margin-top: 5px;
-    margin-left: 5px;
-}
-
-#title_input {
-    resize: none; /* Desactiva el redimensionamiento */
-    padding: 10px; /* Espaciado interno para el texto */
-    font-size: 20px; /* Tamaño de fuente */
-    border: 1px solid var(--details); /* Borde del textarea */
-    border-radius: 10px; /* Bordes redondeados */
-    box-sizing: border-box; /* Incluye el padding en el tamaño */
-    overflow: auto; /* Activa el scroll vertical */
-    margin-top: 5px;
-    margin-left: 5px;
 }
 
 #add_message {
-    width: 20%;
-    height: 90%; /* Ocupa el 100% de la altura del contenedor */
-    margin-bottom: 3px;
-    margin-top: 3px;
-    margin-right: 3px;
-    font-size: 40px; /* Tamaño del texto */
-    font-weight: bold; /* Texto en negrita */
-    color: var(--clair-text); /* Texto blanco */
-    background-color: var(--secondary-color); /* Fondo principal en el mismo color que el header */
-    border: none; /* Elimina el borde */
-    border-radius: 8px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor a "mano" */
-    box-shadow: 0 4px var(--shadows); /* Sombra para un efecto de profundidad */
-    transition: all 0.3s ease; /* Suaviza los cambios al interactuar */
-    text-shadow: 1px 1px 2px var(--shadows); /* Sombra en el texto */
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--clair-text);
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px var(--shadows);
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px var(--shadows);
 }
 
 #add_message:hover {
-    background-color: var(--primary-color); /* Color más oscuro al pasar el cursor */
+    background-color: var(--primary-color);
 }

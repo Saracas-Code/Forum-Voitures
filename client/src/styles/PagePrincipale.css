@@ -2,7 +2,7 @@
 
 /****** HEADER AVEC SES CHAMPS ******/
 header {
-    background-color: var(--primary-color);  
+    background-color: var(--background-color);  
     height: 20%;
     display:flex;
     margin-left: 35px;
@@ -11,7 +11,7 @@ header {
 
 /*Logo*/
 #logo {
-    background-color: var(--primary-color);  
+    background-color: var(--background-color);  
     align-self: center;
     display: flex;
     justify-content: center;

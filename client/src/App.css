@@ -13,41 +13,46 @@ html {
 
 /* Palette de couleurs dans le Forum PUBLIQUE (par défault) */
 :root {
-  --primary-color: #056676;
-  --secondary-color: #5EAAA8;
-  --background-color: #E8DED2;
-  --form-background: rgba(223, 210, 194, 0.8);
+  --primary-color: #006D77;           /* Botones y encabezados */
+  --secondary-color: #004F65;         /* Sidebar y acciones */
+  --background-color: #F9F9F9;        /* Fondo general */
+  --form-background: #FFFFFF;         /* Formularios, paneles */
 
-  --details: #ccc;
+  --details: #D1D5DB;                 /* Bordes suaves */
 
-  --clair-text : white;
-  --shadows : black;
+  --clair-text: #FFFFFF;
+  --shadows: rgba(0, 0, 0, 0.1);      /* Sombras sutiles */
 
-  /* Pour les messages du forum */
-  --message-background: #f5f2eb;
-  --reply-background: #f9f9f9;
-  --title-msg: #333;
-  --content-msg: #444;
-  --minor-content-msg: #777;
-  --no-replies : #999;
+  /* Para los mensajes del foro */
+  --message-background: #FFFFFF;      /* Fondo de cada mensaje */
+  --reply-background: #F4F6F8;        /* Fondo de respuestas */
+  --title-msg: #1C1C1C;               /* Títulos */
+  --content-msg: #333333;             /* Contenido principal */
+  --minor-content-msg: #5F6B7A;       /* Fechas, propietarios */
+  --no-replies: #9CA3AF;              /* Textos apagados */
 }
+
 
 /* Palette de couleurs dans le Forum privé */
 :root.dark-mode {
-  --primary-color: #1a2f5c;       /* Header + Sidebar */
-  --background-color: #a7bfdc;    
-  --secondary-color: #576d8c;    
-  --form-background: #f1f5f9;     
+  --primary-color: #1E3A5F;           /* Encabezado */
+  --secondary-color: #2C476E;         /* Sidebar y botones */
+  --background-color: #0F172A;        /* Fondo general */
+  --form-background: #1E293B;         /* Formularios y paneles */
 
-  --details: #555;
+  --details: #334155;                 /* Bordes */
 
-  --message-background: #d6e1f0;
-  --reply-background: #c8d8eb;
-  --title-msg: #232c51;
-  --content-msg: #49545a;
-  --minor-content-msg: #777;
-  --no-replies : #5d7e98;
+  --clair-text: #F8FAFC;
+  --shadows: rgba(0, 0, 0, 0.5);
+
+  --message-background: #1E293B;
+  --reply-background: #273549;
+  --title-msg: #E2E8F0;
+  --content-msg: #CBD5E1;
+  --minor-content-msg: #94A3B8;
+  --no-replies: #64748B;
 }
+
 
 body {
   /*background-image: url('./assets/logo.webp'); */

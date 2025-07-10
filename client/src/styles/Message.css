@@ -40,4 +40,9 @@
   padding: 5px;
   margin-top: 10px;
   font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.response-btn:hover {
+  color: var(--clair-text); /* #fff o lo que tengas definido */
 }

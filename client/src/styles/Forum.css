@@ -20,7 +20,7 @@
     width: 300px;
     min-width: 260px;
     margin-left: 30px;
-    background-color: var(--background-color);
+    background-color: var(--secondary-color);
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 0 6px rgba(0,0,0,0.05);
@@ -40,21 +40,57 @@
     margin-top: 5px;
 }
 
+#nouveau_msg label {
+  font-size: 18px;                  /* Más grande */
+  color: var(--clair-text);         /* Color claro (modo claro y oscuro) */
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
 #add_message {
-    width: 100%;
-    padding: 12px 20px;
+    padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
     color: var(--clair-text);
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 4px var(--shadows);
-    transition: all 0.3s ease;
-    text-shadow: 1px 1px 2px var(--shadows);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+
 #add_message:hover {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+.input-textarea {
+    width: 100%;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 10px;
+    border: 1px solid var(--details);
+    border-radius: 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+    resize: none;
+    background-color: var(--form-background);
+    transition: border 0.2s ease;
+    min-height: 40px; /* base mínima, se autoajusta */
+    max-height: 300px;
+}
+
+.input-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.char-counter {
+    font-size: 12px;
+    color: var(--clair-text);
+    margin-top: 2px;
+    text-align: right;
+    display: block;
 }

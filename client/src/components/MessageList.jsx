@@ -3,15 +3,18 @@ import Message from "./Message";
 import "../styles/MessageList.css";
 
 const MessageList = ({ messages }) => {
-    if (messages.length === 0) {
-        return <p className="no-content">Aucun message à afficher.</p>;
-    }
 
     return (
         <section id="liste_msg">
-        {messages.map((msg) => (
-            <Message key={msg._id} message={msg} />
-        ))}
+            <h2 className="message-list-title">Derniers messages</h2>
+
+            {messages.length === 0 ? (
+                <p className="no-content">Aucun message à afficher.</p>
+            ) : (
+                messages.map((msg) => (
+                    <Message key={msg._id} message={msg} />
+                ))
+            )}
         </section>
     );
 };

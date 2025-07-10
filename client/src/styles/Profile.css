@@ -152,20 +152,6 @@
     color: var(--clair-text);
 }
 
-.delete-btn {
-    background-color: transparent;
-    color: var(--minor-content-msg);
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 5px;
-    transition: color 0.2s ease;
-}
-
-.delete-btn:hover {
-    color: var(--danger-color);
-}
-
 .no-content {
     font-style: italic;
     color: var(--minor-content-msg);

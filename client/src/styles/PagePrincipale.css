@@ -17,6 +17,7 @@ header {
     justify-content: center;
     align-items: center;
     width: 20%;         /* Cambia según necesites */
+    margin-left: 35px;
     height: 250px;      /* O un valor fijo */
 }
 

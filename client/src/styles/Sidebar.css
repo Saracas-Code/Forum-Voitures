@@ -37,7 +37,7 @@
 }
 
 .menu-content li:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
 }
 
 .menu-label-wrapper {
@@ -106,5 +106,5 @@
 }
 
 .bottom-container li:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
 }

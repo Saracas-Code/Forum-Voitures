@@ -63,22 +63,35 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
     <div id="css_container">
       <section id="nouveau_msg">
         <label htmlFor="title_input">Titre</label>
-        <input
-          type="text"
+        <textarea
           id="title_input"
+          className="input-textarea"
           placeholder="Titre..."
           value={newTitle}
+          maxLength={100}
           onChange={(e) => setNewTitle(e.target.value)}
+          onInput={(e) => {
+            e.target.style.height = "auto";
+            e.target.style.height = `${e.target.scrollHeight}px`;
+          }}
         />
+        <small className="char-counter">{newTitle.length}/100</small>
 
         <label htmlFor="message_input">Contenu</label>
         <textarea
           id="message_input"
+          className="input-textarea"
           placeholder="Écrivez votre message ici..."
           value={newContent}
+          maxLength={1000}
           onChange={(e) => setNewContent(e.target.value)}
-          rows={5}
+          onInput={(e) => {
+            e.target.style.height = "auto";
+            e.target.style.height = `${e.target.scrollHeight}px`;
+          }}
         />
+        <small className="char-counter">{newContent.length}/1000</small>
+
 
         <button id="add_message" onClick={handleAddMessage}>Ajouter</button>
       </section>

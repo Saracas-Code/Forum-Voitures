@@ -30,19 +30,22 @@
 }
 
 .reply-toggle-btn {
-    margin-top: 20px;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
     background-color: transparent;
     border: none;
-    color: var(--secondary-color);
+    color: var(--primary-color);
     cursor: pointer;
-    font-size: 16px;
     padding: 5px;
+    margin-top: 10px;
+    font-weight: bold;
     transition: color 0.2s ease;
 }
 
 .reply-toggle-btn:hover {
-    color: var(--primary-color);
+    color: var(--clair-text);
 }
 
 .reply-form-buttons {

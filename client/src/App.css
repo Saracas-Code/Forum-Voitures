@@ -13,8 +13,8 @@ html {
 
 /* Palette de couleurs dans le Forum PUBLIQUE (par défault) */
 :root {
-  --primary-color: #006D77;           /* Botones y encabezados */
-  --secondary-color: #004F65;         /* Sidebar y acciones */
+  --primary-color: #1f8f9e; /* Azul-verde más luminoso y fresco */           /* Botones y encabezados */
+  --secondary-color: #157692;         /* Sidebar y acciones */
   --background-color: #F9F9F9;        /* Fondo general */
   --form-background: #FFFFFF;         /* Formularios, paneles */
 
@@ -35,24 +35,20 @@ html {
 
 /* Palette de couleurs dans le Forum privé */
 :root.dark-mode {
-  --primary-color: #1E3A5F;           /* Encabezado */
-  --secondary-color: #2C476E;         /* Sidebar y botones */
-  --background-color: #0F172A;        /* Fondo general */
-  --form-background: #1E293B;         /* Formularios y paneles */
+  --primary-color: #102044; /* Azul marino profundo */
+  --background-color: #a7bfdc;    
+  --secondary-color: #3c4a63;;    
+  --form-background: #f1f5f9;   
 
-  --details: #334155;                 /* Bordes */
+  --details: #555;
 
-  --clair-text: #F8FAFC;
-  --shadows: rgba(0, 0, 0, 0.5);
-
-  --message-background: #1E293B;
-  --reply-background: #273549;
-  --title-msg: #E2E8F0;
-  --content-msg: #CBD5E1;
-  --minor-content-msg: #94A3B8;
-  --no-replies: #64748B;
+  --message-background: #d6e1f0;
+  --reply-background: #c8d8eb;
+  --title-msg: #232c51;
+  --content-msg: #49545a;
+  --minor-content-msg: #777;
+  --no-replies : #5d7e98;
 }
-
 
 body {
   /*background-image: url('./assets/logo.webp'); */

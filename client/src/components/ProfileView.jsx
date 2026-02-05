@@ -72,17 +72,17 @@ const ProfileView = ({ user, currentUser, onRoleChange, onReject, onValidate, is
                 <p className="description"><strong>Description :</strong> {user.description}</p>
 
                 {isInscription ? (
-                    <>
-                        <button className="reject-btn" onClick={handleReject}>
+                    <div className="admin-actions">
+                        <button className="reject-btn admin-btn" onClick={handleReject}>
                             Rejeter user
                         </button>
-                        <button className="toggle-admin-btn" onClick={handleValidate}>
+                        <button className="toggle-admin-btn admin-btn" onClick={handleValidate}>
                             Valider user
                         </button>
-                    </>
+                    </div>
                 ) : (
                     canToggleAdmin && (
-                        <button className="toggle-admin-btn" onClick={handleToggleAdmin}>
+                        <button className="toggle-admin-btn admin-btn" onClick={handleToggleAdmin}>
                             {user.role === "admin" ? "Retirer rôle admin" : "Faire admin"}
                         </button>
                     )

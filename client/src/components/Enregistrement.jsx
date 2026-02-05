@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import axios from 'axios'
 
 import "../styles/forms.css"
-import "../styles/Enregistrement.css"
+import Button from "./ui/Button";
+import Card from "./ui/Card";
+import TextInput from "./ui/TextInput";
 
 const Enregistrement = () => {
 
@@ -22,11 +23,10 @@ const Enregistrement = () => {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    const navigate = useNavigate(); // Pour rédiriger après le login
 
-    // Fonction pour vérifier la registration
+    // Fonction pour verifier la registration
     const handleSubmit = (event) => {
-        event.preventDefault(); // Éviter le réchargement
+        event.preventDefault(); // Eviter le rechargement
 
         console.log("[ENREGISTREMENT] Formulaire soumis avec :", { prenom, nom, login, email });
     
@@ -38,13 +38,13 @@ const Enregistrement = () => {
         }
     
         if (password !== retapez) {
-            console.warn("[ENREGISTREMENT] Mot de passe non confirmé");
-            setError("La password n'est pas la même");
+            console.warn("[ENREGISTREMENT] Mot de passe non confirme");
+            setError("La password n'est pas la meme");
             setSuccess("");
             return;
         }
     
-        setSuccess("Inscription réussie! En attente de validation administrative");
+        setSuccess("Inscription reussie! En attente de validation administrative");
         setError("");
     
         // REQUEST AU SERVEUR POUR AJOUTER L'UTILISATEUR 
@@ -63,9 +63,9 @@ const Enregistrement = () => {
                 withCredentials: true // cookies
             })
             .then((response) => {
-                console.log("[ENREGISTREMENT] Réponse serveur :", response.data);
+                console.log("[ENREGISTREMENT] Reponse serveur :", response.data);
                 if (response.data.message) {
-                    setSuccess(response.data.message);  // Réponse exiteuse => message
+                    setSuccess(response.data.message);  // Reponse exiteuse => message
                 }
             })
             .catch((error) => {
@@ -87,74 +87,98 @@ const Enregistrement = () => {
     };
 
     return (
-        <div className="enregistrement-container">
-            <h1>Enregistrement</h1>
-            <form onSubmit={handleSubmit} onReset={handleReset}>
-                <div className="prenom_nom">
-                    <div>
-                        <label htmlFor="chp_prenom">Prénom</label>
-                        <input id="chp_prenom" placeholder="Name..." value={prenom} onChange={(e) => setPrenom(e.target.value)} />
-                    </div>
-                    <div>
-                        <label htmlFor="chp_nom">Nom</label>
-                        <input id="chp_nom" placeholder="Surname..." value={nom} onChange={(e) => setNom(e.target.value)} />
-                    </div>
-                </div>
+        <div className="auth-page">
+            <Card className="auth-card">
+                <h1>Enregistrement</h1>
+                <form className="auth-form auth-form--two" onSubmit={handleSubmit} onReset={handleReset}>
+                    <TextInput
+                        id="chp_prenom"
+                        label="Prenom"
+                        placeholder="Name..."
+                        value={prenom}
+                        onChange={(e) => setPrenom(e.target.value)}
+                    />
+                    <TextInput
+                        id="chp_nom"
+                        label="Nom"
+                        placeholder="Surname..."
+                        value={nom}
+                        onChange={(e) => setNom(e.target.value)}
+                    />
 
-                <label htmlFor="chp_login">Login (Username)</label>
-                <input id="chp_login" placeholder="Login..." value={login} onChange={(e) => setLogin(e.target.value)}/>
+                    <TextInput
+                        id="chp_login"
+                        label="Login (Username)"
+                        placeholder="Login..."
+                        value={login}
+                        onChange={(e) => setLogin(e.target.value)}
+                        className="form-span-full"
+                    />
 
-                <label htmlFor="chp_email">Email</label>
-                <input id="chp_email" placeholder="Email..." value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <TextInput
+                        id="chp_email"
+                        label="Email"
+                        placeholder="Email..."
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="form-span-full"
+                    />
 
-                <label htmlFor="chp_password">Mot de passe</label>
-                <div className="password-toggle">
-                    <input
-                        type={showPassword ? "text" : "password"}
+                    <TextInput
                         id="chp_password"
-                        className="password-input"
+                        label="Mot de passe"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Password..."
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        rightSlot={
+                            <button
+                                type="button"
+                                className="ui-icon-button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                title={showPassword ? "Cacher le mot de passe" : "Afficher le mot de passe"}
+                                aria-label={showPassword ? "Cacher le mot de passe" : "Afficher le mot de passe"}
+                            >
+                                {showPassword ? <FiEyeOff /> : <FiEye />}
+                            </button>
+                        }
+                        className="form-span-full"
                     />
-                    <span
-                        className="toggle-icon"
-                        onClick={() => setShowPassword(!showPassword)}
-                        title={showPassword ? "Cacher le mot de passe" : "Afficher le mot de passe"}
-                        >
-                        {showPassword ? <FiEyeOff /> : <FiEye />}
-                    </span>
-                </div>
 
-                <label htmlFor="chp_retapez">Retapez le mot de passe</label>
-                <div className="password-toggle">
-                    <input
-                        type={showRetapez ? "text" : "password"}
+                    <TextInput
                         id="chp_retapez"
-                        className="password-input"
+                        label="Retapez le mot de passe"
+                        type={showRetapez ? "text" : "password"}
                         placeholder="Repeat password..."
                         value={retapez}
                         onChange={(e) => setRetapez(e.target.value)}
+                        error={error}
+                        rightSlot={
+                            <button
+                                type="button"
+                                className="ui-icon-button"
+                                onClick={() => setShowRetapez(!showRetapez)}
+                                title={showRetapez ? "Cacher le mot de passe" : "Afficher le mot de passe"}
+                                aria-label={showRetapez ? "Cacher le mot de passe" : "Afficher le mot de passe"}
+                            >
+                                {showRetapez ? <FiEyeOff /> : <FiEye />}
+                            </button>
+                        }
+                        className="form-span-full"
                     />
-                    <span
-                        className="toggle-icon"
-                        onClick={() => setShowRetapez(!showRetapez)}
-                        title={showRetapez ? "Cacher le mot de passe" : "Afficher le mot de passe"}
-                        >
-                        {showRetapez ? <FiEyeOff /> : <FiEye />}
-                    </span>
+
+                    <div className="form-actions">
+                        <Button type="reset" variant="secondary">Annuler</Button>
+                        <Button type="submit" variant="primary">S'inscrire</Button>
+                    </div>
+
+                    {success && <p className="ui-success form-message">{success}</p>}
+                </form>
+                <div className="auth-footer">
+                    <span>Vous avez deja une compte?</span>
+                    <Link to="/login">Connexion</Link>
                 </div>
-
-                <button type="reset">Annuler</button>
-                <button type="submit">S'inscrire</button>
-
-                {error && <p className="error">{error}</p>}
-                {success && <p className="success">{success}</p>}
-            </form>
-            <div id="connect">
-                <label htmlFor="info-connexion">Vous avez déjà une compte?</label>
-                <Link to="/login">Connexion</Link>
-            </div>
+            </Card>
         </div>
     );
 };

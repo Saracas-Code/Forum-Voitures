@@ -1,48 +1,32 @@
-/* Message.css */
+﻿/* Message.css */
 
-.message {
-  background-color: var(--message-background); /* Define esto en tus variables si no existe */
-  padding: 16px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: background-color 0.3s ease;
+.message-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-
 .message-title {
-  font-weight: bold;
-  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  font-size: 20px;
   color: var(--title-msg);
 }
 
 .message-content {
-  font-size: 18px;
+  font-size: 16px;
   color: var(--content-msg);
-  margin: 5px 0;
 }
 
-.message-date,
-.message-owner {
-  font-size: 14px;
+.message-meta {
+  font-size: 13px;
   color: var(--minor-content-msg);
 }
 
-.response-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 16px;
-  background-color: transparent;
-  border: none;
-  color: var(--primary-color);
-  cursor: pointer;
-  padding: 5px;
-  margin-top: 10px;
-  font-weight: bold;
-  transition: color 0.2s ease;
+.reply-toggle {
+  align-self: flex-start;
+  margin-top: var(--space-2);
 }
 
-.response-btn:hover {
-  color: var(--clair-text); /* #fff o lo que tengas definido */
+.reply-toggle-text {
+  margin-left: 6px;
 }

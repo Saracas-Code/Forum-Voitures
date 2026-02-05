@@ -53,7 +53,7 @@ async function seedAndEnrichMessages() {
 
         console.log("- TOUS LES MESSAGES ONT ÉTÉ ENRICHIS.");
     } catch (err) {
-        console.error("❌ ERREUR : ", err);
+        console.error("ERREUR : ", err);
     } finally {
         await client.close();
     }

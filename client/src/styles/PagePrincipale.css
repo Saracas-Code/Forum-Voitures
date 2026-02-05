@@ -1,11 +1,24 @@
+﻿
+.page-layout {
+    display: flex;
+    gap: 24px;
+    min-height: 100vh;
+}
 
+.main-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-left: 96px;
+    padding-right: 24px;
+}
 
 /****** HEADER AVEC SES CHAMPS ******/
 header {
     background-color: var(--background-color);  
     height: 20%;
     display:flex;
-    margin-left: 35px;
     flex-direction: row
 }
 
@@ -16,8 +29,7 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20%;         /* Cambia según necesites */
-    margin-left: 35px;
+    width: 20%;         /* Cambia segun necesites */
     height: 250px;      /* O un valor fijo */
 }
 
@@ -30,22 +42,9 @@ img {
     border-radius: 100%;
 }
 
-/*Links*/
-
-#connect {
-    display: flex;                               /* Usamos Flexbox para disposición */
-    flex-direction: column;                      /* Coloca los enlaces en una columna */
-    font-size: 38px;                             /* Tamaño de fuente más grande */
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; /* Fuente personalizada */
-    text-align: center;                          /* Centra el texto de los enlaces */
-    margin-top: 30px;                            /* Espacio superior */
-    margin-right: 30px;                          /* Espacio derecho */
-}
-
 
 /****** MAIN AVEC SES CHAMPS ******/
 main {
     display: flex;  /* Establece Flexbox para organizar los elementos en una fila */
-    margin-left: 35px;
     height: 100%;
 }

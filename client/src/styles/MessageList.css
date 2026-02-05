@@ -1,29 +1,21 @@
-/* MessageList.css */
+﻿/* MessageList.css */
 
-#liste_msg {
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 6px var(--shadows);
-}
-
-.message-list-title {
-    font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: var(--clair-text);
-    border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 20px;
-}
-
-#liste_msg {
+.message-list {
     flex: 1;
     min-height: 500px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 20px;
-    background-color: var(--secondary-color);
-    border-radius: 12px;
-    box-shadow: 0 0 6px rgba(0,0,0,0.05);
-    box-sizing: border-box;
+    gap: var(--space-4);
+}
+
+.section-title {
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-semibold);
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: var(--space-2);
+}
+
+.no-content {
+    color: var(--color-muted-text);
+    font-style: italic;
 }

@@ -60,12 +60,12 @@ async function cleanOidsHashPasswordsAndDates(cheminFichier) {
 
     const cheminNettoyé = cheminFichier.replace(/\.js$/, ".cleaned.js");
     fs.writeFileSync(cheminNettoyé, sortie);
-    console.log(`✅ Fichier nettoyé, daté et chiffré généré : ${cheminNettoyé}`);
+    console.log(`Fichier nettoyé, daté et chiffré généré : ${cheminNettoyé}`);
 }
 
 // POINT D'ENTRÉE
 if (process.argv.length < 3) {
-    console.log("ℹ️ Utilisation : node cleanSeedFile.js nomDuFichier.js");
+    console.log("Utilisation : node cleanSeedFile.js nomDuFichier.js");
     process.exit(1);
 }
 

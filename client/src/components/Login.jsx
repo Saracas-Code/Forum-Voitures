@@ -5,7 +5,9 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import axios from 'axios'
 
 import "../styles/forms.css"
-import "../styles/Login.css"
+import Button from "./ui/Button";
+import Card from "./ui/Card";
+import TextInput from "./ui/TextInput";
 
 const Login = ({ currentUser, setCurrentUser }) => {
 
@@ -69,41 +71,49 @@ const Login = ({ currentUser, setCurrentUser }) => {
     };
 
     return (
-        <div className="login-container">
-            <h1>Ouvrir une session</h1>
-            <form onSubmit={handleSubmit} onReset={handleReset}>
+        <div className="auth-page">
+            <Card className="auth-card">
+                <h1>Ouvrir une session</h1>
+                <form className="auth-form" onSubmit={handleSubmit} onReset={handleReset}>
+                    <TextInput
+                        id="chp_login"
+                        label="Login"
+                        placeholder="Login..."
+                        value={login}
+                        onChange={(e) => setLogin(e.target.value)}
+                    />
 
-                <label htmlFor="chp_login">Login</label>
-                <input id="chp_login" placeholder="Login..." value={login} onChange={(e) => setLogin(e.target.value)} />
-
-                <label htmlFor="chp_password">Mot de passe</label>
-                <div className="password-toggle">
-                    <input
-                        type={showPassword ? "text" : "password"}
+                    <TextInput
                         id="chp_password"
-                        className="password-input"
+                        label="Mot de passe"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Password..."
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        error={error}
+                        rightSlot={
+                            <button
+                                type="button"
+                                className="ui-icon-button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                title={showPassword ? "Cacher le mot de passe" : "Afficher le mot de passe"}
+                                aria-label={showPassword ? "Cacher le mot de passe" : "Afficher le mot de passe"}
+                            >
+                                {showPassword ? <FiEyeOff /> : <FiEye />}
+                            </button>
+                        }
                     />
-                    <span
-                        className="toggle-icon"
-                        onClick={() => setShowPassword(!showPassword)}
-                        title={showPassword ? "Cacher le mot de passe" : "Afficher le mot de passe"}
-                        >
-                        {showPassword ? <FiEyeOff /> : <FiEye />}
-                    </span>
+
+                    <div className="form-actions">
+                        <Button type="reset" variant="secondary">Annuler</Button>
+                        <Button type="submit" variant="primary">Connexion</Button>
+                    </div>
+                </form>
+                <div className="auth-footer">
+                    <span>Vous n'avez pas une compte?</span>
+                    <Link to="/register">Enregistrement</Link>
                 </div>
-
-                <button type="reset">Annuler</button>
-                <button type="submit">Connexion</button>
-
-                {error && <p className="error">{error}</p>}
-            </form>
-            <div id="connect">
-                <label htmlFor="info-register">Vous n'avez pas une compte?</label>
-                <Link to="/register">Enregistrement</Link>
-            </div>
+            </Card>
         </div>
     );
 };

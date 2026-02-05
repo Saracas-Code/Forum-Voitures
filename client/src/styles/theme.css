@@ -1,0 +1,128 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+
+:root {
+  --color-primary: #006d77;
+  --color-primary-hover: #004f65;
+  --color-secondary: #004f65;
+  --color-background: #f6f8f9;
+  --color-surface: #ffffff;
+  --color-text: #1f2933;
+  --color-muted-text: #5f6b7a;
+  --color-border: #d1d5db;
+  --color-danger: #b42318;
+  --color-on-primary: #ffffff;
+
+  --font-family: "Manrope", "Segoe UI", sans-serif;
+  --font-size-h1: 32px;
+  --font-size-h2: 24px;
+  --font-size-h3: 20px;
+  --font-size-body: 16px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.08);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+
+  --focus-ring: 0 0 0 3px rgba(0, 109, 119, 0.18);
+
+  /* Backward compatible aliases */
+  --primary-color: var(--color-primary);
+  --secondary-color: var(--color-secondary);
+  --background-color: var(--color-background);
+  --form-background: var(--color-surface);
+  --details: var(--color-border);
+  --clair-text: var(--color-on-primary);
+  --shadows: rgba(0, 0, 0, 0.1);
+  --text-color: var(--color-text);
+
+  --message-background: var(--color-surface);
+  --reply-background: #f4f6f8;
+  --title-msg: var(--color-text);
+  --content-msg: var(--color-text);
+  --minor-content-msg: var(--color-muted-text);
+  --no-replies: #9ca3af;
+}
+
+:root.dark-mode {
+  --color-background: #a7bfdc;
+  --color-surface: #f1f5f9;
+  --color-text: #1f2a44;
+  --color-muted-text: #4b5563;
+  --color-border: #6b7280;
+  --color-primary: #102044;
+  --color-primary-hover: #3c4a63;
+  --color-secondary: #3c4a63;
+  --color-on-primary: #f8fafc;
+
+  --message-background: #d6e1f0;
+  --reply-background: #c8d8eb;
+  --no-replies: #5d7e98;
+  --shadows: rgba(0, 0, 0, 0.18);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+}
+
+h1,
+h2,
+h3 {
+  text-shadow: none;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-semibold);
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}

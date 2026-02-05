@@ -1,7 +1,9 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import axios from "axios";
 import Reply from "./Reply";
 import "../styles/ReplyList.css";
+import Button from "./ui/Button";
+import TextInput from "./ui/TextInput";
 
 const ReplyList = ({ messageId, initialReplies }) => {
     const [replies, setReplies] = useState(initialReplies || []);
@@ -11,11 +13,11 @@ const ReplyList = ({ messageId, initialReplies }) => {
     const handleSendReply = async () => {
 
         if (!replyText.trim()) {
-            console.warn("[REPLY] Réponse vide - envoi annulé.");
+            console.warn("[REPLY] Reponse vide - envoi annule.");
             return;
         }
 
-        console.log(`[REPLY] Envoi d'une réponse au message ${messageId}`);
+        console.log(`[REPLY] Envoi d'une reponse au message ${messageId}`);
         console.log("[REPLY] Contenu :", replyText);
 
         try {
@@ -23,13 +25,13 @@ const ReplyList = ({ messageId, initialReplies }) => {
                 content: replyText
             }, { withCredentials: true });
 
-            console.log("[REPLY] Réponse enregistrée avec succès :", res.data);
+            console.log("[REPLY] Reponse enregistree avec succes :", res.data);
 
             setReplies([res.data, ...replies]);
             setReplyText("");
             setShowReplyForm(false);
         } catch (err) {
-            console.error("[REPLY] Erreur lors de l'envoi de la réponse :", err.response?.data || err.message);
+            console.error("[REPLY] Erreur lors de l'envoi de la reponse :", err.response?.data || err.message);
         }
     };
 
@@ -41,24 +43,27 @@ const ReplyList = ({ messageId, initialReplies }) => {
                     <Reply key={index} reply={reply} />
                 ))
             ) : (
-                <p className="no-replies">Aucune réponse pour ce message.</p>
+                <p className="no-replies">Aucune reponse pour ce message.</p>
             )}
 
             {!showReplyForm ? (
-                <button className="reply-toggle-btn" onClick={() => setShowReplyForm(true)}>
-                    Répondre
-                </button>
+                <Button variant="secondary" size="sm" onClick={() => setShowReplyForm(true)}>
+                    Repondre
+                </Button>
             ) : (
                 <div className="reply-form">
-                    <input
-                        type="text"
+                    <TextInput
+                        id={`reply_${messageId}`}
+                        label="Votre reponse"
                         value={replyText}
                         onChange={(e) => setReplyText(e.target.value)}
-                        placeholder="Écrivez votre réponse ici..."
+                        placeholder="Ecrivez votre reponse ici..."
                     />
                     <div className="reply-form-buttons">
-                        <button className="send-btn" onClick={handleSendReply}>Envoyer</button>
-                        <button className="cancel-btn" onClick={() => setShowReplyForm(false)}>Annuler</button>
+                        <Button size="sm" onClick={handleSendReply}>Envoyer</Button>
+                        <Button variant="secondary" size="sm" onClick={() => setShowReplyForm(false)}>
+                            Annuler
+                        </Button>
                     </div>
                 </div>
             )}

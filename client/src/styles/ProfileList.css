@@ -38,18 +38,66 @@
     text-align: center;
 }
 
+.admin-actions {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
+}
+
+.admin-actions button {
+    height: 36px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    line-height: 1;
+    margin: 0;
+}
+
+.admin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding: 0 14px;
+    line-height: 1;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
 .toggle-admin-btn {
-    margin-top: 10px;
-    padding: 6px 12px;
     background-color: var(--secondary-color);
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
 }
 
 .toggle-admin-btn:hover {
     background-color: var(--primary-color);
+}
+
+.reject-btn {
+    background-color: transparent;
+    color: var(--minor-content-msg);
+    border-color: var(--minor-content-msg);
+}
+
+.reject-btn:hover {
+    background-color: var(--minor-content-msg);
+    color: var(--clair-text);
+}
+
+@media (max-width: 420px) {
+    .admin-actions {
+        flex-direction: column;
+    }
+
+    .admin-actions button {
+        width: 100%;
+    }
 }
 

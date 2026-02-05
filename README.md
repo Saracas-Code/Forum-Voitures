@@ -17,7 +17,7 @@ Forum-Projet-Final/
 
 ## Note sur la sécurité des données
 
-Ce projet a été réalisé par deux étudiantes ayant suivi la matière **Introduction à la cryptologie** à la Sorbonne. Une des leçons essentielles que nous en avons tirée est l'importance de protéger les données sensibles.
+Ce projet a été réalisé ayant suivi la matière **Introduction à la cryptologie** à la Sorbonne. Une des leçons essentielles que nous en avons tirée est l'importance de protéger les données sensibles.
 
 C’est pourquoi, même dans un projet pédagogique, nous avons intégré un **chiffrement sécurisé** des mots de passe dans la base de données. Grâce à la bibliothèque `bcrypt`, chaque mot de passe est automatiquement haché avant d’être stocké, garantissant ainsi qu’aucune donnée confidentielle ne soit enregistrée en clair.
 

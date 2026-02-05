@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/Forum.css";
 import MessageList from "./MessageList";
-import Message from "./Message";
+import Button from "./ui/Button";
+import Card from "./ui/Card";
+import TextInput from "./ui/TextInput";
 
 const Forum = ({ currentUser, isPrivateView, filters  }) => {
 
@@ -61,11 +63,11 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
 
   return (
     <div id="css_container">
-      <section id="nouveau_msg">
-        <label htmlFor="title_input">Titre</label>
-        <textarea
+      <Card className="compose-card" as="section">
+        <TextInput
           id="title_input"
-          className="input-textarea"
+          label="Titre"
+          multiline
           placeholder="Titre..."
           value={newTitle}
           maxLength={100}
@@ -75,12 +77,12 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
             e.target.style.height = `${e.target.scrollHeight}px`;
           }}
         />
-        <small className="char-counter">{newTitle.length}/100</small>
+        <small className="ui-hint field-hint">{newTitle.length}/100</small>
 
-        <label htmlFor="message_input">Contenu</label>
-        <textarea
+        <TextInput
           id="message_input"
-          className="input-textarea"
+          label="Contenu"
+          multiline
           placeholder="Écrivez votre message ici..."
           value={newContent}
           maxLength={1000}
@@ -90,11 +92,12 @@ const Forum = ({ currentUser, isPrivateView, filters  }) => {
             e.target.style.height = `${e.target.scrollHeight}px`;
           }}
         />
-        <small className="char-counter">{newContent.length}/1000</small>
+        <small className="ui-hint field-hint">{newContent.length}/1000</small>
 
-
-        <button id="add_message" onClick={handleAddMessage}>Ajouter</button>
-      </section>
+        <div className="compose-actions">
+          <Button type="button" onClick={handleAddMessage}>Ajouter</Button>
+        </div>
+      </Card>
 
 
       <MessageList messages={messages} />

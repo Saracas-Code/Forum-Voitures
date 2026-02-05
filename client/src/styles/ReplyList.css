@@ -1,9 +1,12 @@
-/* ReplyList.css */
+﻿/* ReplyList.css */
 
 .replies {
-    margin-top: 10px;
-    padding-left: 20px;
-    border-left: 2px dashed var(--details);
+    margin-top: var(--space-3);
+    padding-left: var(--space-4);
+    border-left: 2px dashed var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
 }
 
 .no-replies {
@@ -15,59 +18,11 @@
 .reply-form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 12px;
-}
-
-.reply-form input {
-    padding: 10px 14px;
-    border-radius: 8px;
-    border: 1px solid var(--details);
-    background-color: var(--form-background);
-    color: var(--title-msg);
-    font-size: 16px;
-    outline: none;
-}
-
-.reply-toggle-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 16px;
-    background-color: transparent;
-    border: none;
-    color: var(--primary-color);
-    cursor: pointer;
-    padding: 5px;
-    margin-top: 10px;
-    font-weight: bold;
-    transition: color 0.2s ease;
-}
-
-.reply-toggle-btn:hover {
-    color: var(--clair-text);
+    gap: var(--space-3);
+    margin-top: var(--space-2);
 }
 
 .reply-form-buttons {
     display: flex;
-    gap: 10px;
-}
-
-.send-btn {
-    background-color: var(--secondary-color);
-    color: var(--clair-text);
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.cancel-btn {
-    background-color: transparent;
-    border: 1px solid var(--minor-content-msg);
-    color: var(--minor-content-msg);
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
+    gap: var(--space-2);
 }

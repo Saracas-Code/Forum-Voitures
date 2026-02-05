@@ -1,0 +1,41 @@
+﻿services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  server:
+    build: ./server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: mongodb://mongo:27017/forum
+      NODE_ENV: production
+  client:
+    build: ./client
+    ports:
+      - "8080:80"
+    depends_on:
+      - server
+  seed:
+    image: node:20-alpine
+    working_dir: /app
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URL: mongodb://mongo:27017/forum
+    volumes:
+      - ./:/app
+    command: >
+      sh -c "npm ci
+      && node common/cleanSeedFile.js common/users-seed.js
+      && node common/cleanSeedFile.js common/messages-seed.js
+      && node common/seedAndEnrichMessages.js"
+    profiles:
+      - seed
+
+volumes:
+  mongo_data:

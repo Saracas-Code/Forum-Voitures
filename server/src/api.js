@@ -13,6 +13,14 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
     const { login, password } = req.body;
     console.log(`[LOGIN] Tentative de connexion pour : ${login}`);
+    console.log(`[LOGIN] login type: ${typeof login}, value: ${login}`);
+    try {
+        const db = getDB();
+        const count = await db.collection("users").countDocuments({ login });
+        console.log(`[LOGIN] Users with login "${login}": ${count}`);
+    } catch (err) {
+        console.warn("[LOGIN] Unable to count users for login:", err?.message || err);
+    }
 
     const user = await User.findByLogin(login);
     if (!user) {
@@ -275,6 +283,7 @@ router.post("/messages/:id/reply", async (req, res) => {
 // GET /api/users/me
 // Récupérer les infos complètes du user courant
 router.get("/users/me", async (req, res) => {
+    
     if (!req.session?.user?._id) {
         return res.status(401).json({ error: "Utilisateur non connecté." });
     }
@@ -421,6 +430,7 @@ router.get("/users/pending-count", async (req, res) => {
 // GET /api/users/id-by-login?login=lucas
 // Cette méthode a été crée pour faire les tests Postman
 router.get("/users/id-by-login", async (req, res) => {
+    console.log("BODY:", req.body);
     const login = req.query.login;
 
     if (!login) {

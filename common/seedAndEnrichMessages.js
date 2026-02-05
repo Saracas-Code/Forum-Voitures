@@ -2,14 +2,14 @@ const { MongoClient, ObjectId } = require("mongodb");
 const users = require("./users-seed.cleaned.js");
 const messages = require("./messages-seed.cleaned.js");
 
-MONGO_URI_LOCAL = "mongodb://127.0.0.1:27017/forum"
+const MONGO_URI = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/forum";
 
-const clientLocal = new MongoClient(MONGO_URI_LOCAL);
+const client = new MongoClient(MONGO_URI);
 
 async function seedAndEnrichMessages() {
     try {
-        await clientLocal.connect();
-        const db = clientLocal.db("forum");
+        await client.connect();
+        const db = client.db();
 
         // Nettoyer les collections existantes
         await db.collection("users").deleteMany({});
@@ -55,7 +55,7 @@ async function seedAndEnrichMessages() {
     } catch (err) {
         console.error("❌ ERREUR : ", err);
     } finally {
-        await clientLocal.close();
+        await client.close();
     }
 }
 

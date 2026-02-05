@@ -13,8 +13,8 @@ html {
 
 /* Palette de couleurs dans le Forum PUBLIQUE (par défault) */
 :root {
-  --primary-color: #1f8f9e; /* Azul-verde más luminoso y fresco */           /* Botones y encabezados */
-  --secondary-color: #157692;         /* Sidebar y acciones */
+  --primary-color: #006D77;           /* Botones y encabezados */
+  --secondary-color: #004F65;         /* Sidebar y acciones */
   --background-color: #F9F9F9;        /* Fondo general */
   --form-background: #FFFFFF;         /* Formularios, paneles */
 

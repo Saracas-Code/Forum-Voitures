@@ -163,3 +163,9 @@ Pour tester rapidement les différentes fonctionnalités du forum, vous pouvez u
 
 > N’hésitez pas à enrichir les jeux de données ou à tester la sécurité avec d'autres comptes simulés.
 
+## Docker (demo)
+docker compose up --build
+Client: http://localhost:8080
+Server: http://localhost:3000
+Mongo: mongodb://localhost:27017/forum
+Seed: docker compose run --rm seed
